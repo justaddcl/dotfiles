@@ -4,8 +4,9 @@
 # with `mas search <name>`.
 
 apps=(
-  1423210932 # Flow - Focus & Pomodoro Timer
-  1440405750 # MusicHarbor
+  937984704 # Amphetamine: https://apps.apple.com/us/app/amphetamine/id937984704?mt=12
+  1423210932 # Flow - Focus & Pomodoro Timer: https://flowapp.info/
+  1440405750 # MusicHarbor: https://apps.apple.com/us/app/musicharbor-track-new-music/id1440405750
 )
 
 for app in "${apps[@]}"; do
