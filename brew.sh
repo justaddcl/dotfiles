@@ -213,6 +213,8 @@ tap_list=(
 )
 
 formulae_list=(
+    bat
+    bat-extras
     curl
     eslint
     gh
@@ -221,6 +223,7 @@ formulae_list=(
     node
     nvm
     prettier
+    ripgrep
     tmux
     typescript
     wget
@@ -247,7 +250,9 @@ cask_list=(
     gifski
     google-chrome
     font-inconsolata-for-powerline
+    font-jetbrains-mono
     kap
+    neovim
     notion
     paragon-ntfs
     numi
