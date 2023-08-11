@@ -7,10 +7,11 @@ set -o pipefail
 script_info() {
     cat <<EOF
 
-Name:           autobrew.sh
+Name:           system-brew.sh
 Description:    Automate the installation of macOS
-                applications and packages using homebrew
-Author:         Mark Bradley
+                applications and packages using homebrew.
+                Fork of autobrew.sh by Mark Bradley
+Author:         JustAddCl
 Requirements:   Command Line Tools (CLT) for Xcode
 EOF
 }
