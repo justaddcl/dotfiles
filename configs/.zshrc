@@ -124,7 +124,6 @@ alias pg-start="pg_ctl -D /usr/local/var/postgresql@11 start"
 alias pg-stop="pg_ctl -D /usr/local/var/postgresql@11 stop"
 alias pg-restart="pg_ctl -D /usr/local/var/postgresql@11 restart"
 alias vscode-ext="open ~/.vscode/extensions"
-alias hyper-config="code ~/.hyper.js"
 #alias capScrn="node /Users/yujinelson/Repositories/Magpul-m2/scripts/visual-testing.js"
 #alias ohmyzsh="code ~/.oh-my-zsh"
 
@@ -132,6 +131,3 @@ alias hyper-config="code ~/.hyper.js"
 # . /usr/local/etc/profile.d/z.sh
 export PATH="/usr/local/opt/postgresql@11/bin:$PATH"
 source /Users/yuji/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
-# Fig post block. Keep at the bottom of this file.
-[[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.post.zsh"
