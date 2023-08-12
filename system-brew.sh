@@ -225,7 +225,7 @@ install_zsh() {
 }
 
 install_mas() {
-  task_message cb "\nInstalling Mac App Store apps..."
+  term_message cb "\nInstalling Mac App Store apps..."
   # Mac App Store apps have IDs. You can find these
   # with `mas search <name>`.
 
@@ -335,6 +335,7 @@ formulae_list=(
     gifski
     git
     mas
+    neovim
     node
     nvm
     prettier
@@ -366,7 +367,6 @@ cask_list=(
     font-inconsolata-for-powerline
     font-jetbrains-mono
     kap
-    neovim
     notion
     paragon-ntfs
     numi
