@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# import util functions
+[ -f ./utils.sh ] && . ./utils.sh
+
 # Mac App Store apps have IDs. You can find these
 # with `mas search <name>`.
 
@@ -12,6 +15,10 @@ apps=(
   1440405750 # MusicHarbor: https://apps.apple.com/us/app/musicharbor-track-new-music/id1440405750
 )
 
+task_start "Installing apps from the Mac App Store."
+
 for app in "${apps[@]}"; do
     mas install $app
 done
+
+task_done "Mac apps installed"
