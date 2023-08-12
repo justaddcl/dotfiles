@@ -273,7 +273,7 @@ install_lockscreen_image() {
 
           # check if repo has lockscreen to copy
           if [ -f ./configs/lockscreen.png ]; then
-            cp "./configs/lockscreen.png" "$desktop_pictures_dir/$uuid/"
+            curl -o $desktop_pictures_dir/$uuid/ 'https://github.com/justaddcl/dotfiles/blob/main/configs/lockscreen.png?raw=true'
             task_done "Lockscreen image copied into $desktop_pictures_dir/$uuid.\n"
           else
             task_fail "./configs/ does not have a lockscreen image to copy. \n"
