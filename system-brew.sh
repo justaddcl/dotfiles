@@ -3,6 +3,10 @@
 set -o errexit
 set -o pipefail
 
+installed_list=()
+error_list=()
+already_installed_list=()
+
 # Function to set terminal colors if supported.
 term_colors() {
     if [[ -t 1 ]]; then
@@ -149,13 +153,16 @@ brew_packages() {
             task_start "Checking for tap > ${tap}"
             if brew tap | grep "${tap}" >/dev/null 2>&1 || command_exists "${tap}"; then
                 task_done "Tap ${tap} already added.$(tput el)"
+                already_installed_list+=( ${tap} )
             else
                 task_fail "\n"
                 term_message mb "Attempting to add tap ${tap}..."
                 if brew tap "${tap}"; then
                     task_done "Tap ${tap} added.\n"
+                    installed_list+=( ${tap} )
                 else
                     task_fail "Unable to add tap ${tap}.\n"
+                    error_list+=( ${tap} )
                 fi
             fi
         done
@@ -166,13 +173,16 @@ brew_packages() {
             task_start "Checking for package > ${formula}"
             if brew list "${formula}" >/dev/null 2>&1 || command_exists "${formula}"; then
                 task_done "Package ${formula} already installed.$(tput el)"
+                already_installed_list+=( ${formula} )
             else
                 task_fail "\n"
                 term_message mb "Attempting to install ${formula}..."
                 if brew install "${formula}"; then
                     task_done "Package ${formula} installed.\n"
+                    installed_list+=( ${formula} )
                 else
                     task_fail "Package ${formula} install failed.\n"
+                    error_list+=( ${formula} )
                 fi
             fi
         done
@@ -183,13 +193,16 @@ brew_packages() {
             task_start "Checking for cask package > ${cask}"
             if brew list --cask "${cask}" >/dev/null 2>&1; then
                 task_done "Package ${cask} already installed.$(tput el)"
+                already_installed_list+=( ${cask} )
             else
                 task_fail "\n"
                 term_message mb "Attempting to install ${cask}..."
                 if brew install --cask "${cask}"; then
                     task_done "Package ${cask} installed.\n"
+                    installed_list+=( ${cask} )
                 else
                     task_fail "Package ${cask} install failed.\n"
+                    error_list+=( ${cask} )
                 fi
             fi
         done
@@ -229,6 +242,7 @@ install_mas() {
 
   for app in "${apps[@]}"; do
       mas install $app
+      installed_list+=( ${app} )
   done
 
   task_done "Mac apps installed.\n"
@@ -285,6 +299,27 @@ install_lockscreen_image() {
   else
       task_fail "Error: /Library/Caches/Desktop Pictures/ directory does not exist. \n"
   fi
+}
+
+print_success() {
+  term_message gb "\n${#success_list[@]} items installed"
+  for success in ${success_list[@]}; do
+    task_done $success
+  done
+}
+
+print_already_installed() {
+  term_message gb "\n${#already_installed_list[@]} items were already installed and were skipped"
+  for already_installed in ${already_installed_list[@]}; do
+    task_start $already_installed
+  done
+}
+
+print_errors() {
+  term_message rb "\n${#error_list[@]} items failed"
+  for error in ${error_list[@]}; do
+    task_fail $error
+  done
 }
 
 tap_list=(
@@ -367,10 +402,13 @@ main() {
     install_homebrew
     brew_packages
     brew_cleanup
-    install_zsh
     install_mas
+    install_zsh
     install_configs
     term_message gb "\nSystem brew has completed."
+    print_success
+    print_already_installed
+    print_errors
 }
 
 main "${@}"
