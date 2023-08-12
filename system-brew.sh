@@ -332,6 +332,7 @@ formulae_list=(
     curl
     eslint
     gh
+    gifski
     git
     mas
     node
@@ -361,7 +362,6 @@ cask_list=(
     firefox
     fliqlo
     flux
-    gifski
     google-chrome
     font-inconsolata-for-powerline
     font-jetbrains-mono
