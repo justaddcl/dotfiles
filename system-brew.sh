@@ -6,6 +6,9 @@ set -o errexit
 # or zero if all commands in the pipeline exit successfully
 set -o pipefail
 
+# Ensure the script prints a summary of what's changed when it exits
+trap handle_exit SIGINT SIGTERM ERR EXIT
+
 installed_list=()
 error_list=()
 already_installed_list=()
@@ -264,14 +267,20 @@ install_mas() {
 install_configs() {
     term_message cb "\nSetting up preferences..."
 
-    task_start "Downloading preferences..."
+    task_start "Downloading dock preferences"
     curl -o ~/Library/Preferences 'https://github.com/justaddcl/dotfiles/raw/main/configs/com.apple.dock.plist'
-    curl -o ~/Library/Preferences 'https://github.com/justaddcl/dotfiles/raw/main/configs/com.apple.EmojiPreferences.plist'
-    task_done "Preferences downloaded.\n"
+    task_done "Installed dock preferences at 'https://github.com/justaddcl/dotfiles/raw/main/configs/com.apple.dock.plist'"
+    installed_list+=("Dock preferences")
 
-    task_start "Copying ZSH config..."
+    task_start "Downloading emoji preferences"
+    curl -o ~/Library/Preferences 'https://github.com/justaddcl/dotfiles/raw/main/configs/com.apple.EmojiPreferences.plist'
+    task_done "Installed emoji preferences at 'https://github.com/justaddcl/dotfiles/raw/main/configs/com.apple.dock.plist'"
+    installed_list+=("Emoji preferences")
+
+    task_start "Downloading ZSH config..."
     curl -o ~/ 'https://raw.githubusercontent.com/justaddcl/dotfiles/main/configs/.zshrc'
-    task_done "ZSH config copied."
+    task_done "Installed ZSH config"
+    installed_list+=("ZSH config")
 }
 
 install_lockscreen_image() {
@@ -333,6 +342,29 @@ print_errors() {
     for error in ${error_list[@]}; do
         task_fail $error
     done
+}
+
+print_summary() {
+    term_message cb "\nSystem brew summary ---------------------------------------"
+    print_success
+    print_already_installed
+    print_errors
+}
+
+handle_exit() {
+    exit_code=$?
+    if [ $exit_code -ne 0 ]; then
+        term_message yb "\n[!] System brew was interrupted and has exited without completing."
+        print_summary
+        has_printed_summary=true
+    else
+        if [ $has_printed_summary = false ]; then
+            term_message gb "\n[\xE2\x9C\x94] System brew has completed."
+            print_summary
+        fi
+    fi
+
+    exit 0
 }
 
 tap_list=(
@@ -398,14 +430,7 @@ cask_list=(
     whatsapp
 )
 
-# One function to rule them all.
 main() {
-    # Customise the following list variables (tap_list, term_list and cask_list)
-    # Leave list blank or comment out the list if not required.
-    # tap_list="homebrew/cask-fonts"
-    # term_list="git htop wget curl tmux"
-    # cask_list="the-unarchiver vlc visual-studio-code google-chrome \
-    # firefox adobe-acrobat-reader malwarebytes font-fira-code"
     clear
     term_message cb "\nBrewing a new system..."
     term_colors
@@ -418,10 +443,6 @@ main() {
     install_mas
     install_zsh
     install_configs
-    term_message gb "\nSystem brew has completed."
-    print_success
-    print_already_installed
-    print_errors
 }
 
 main "${@}"
