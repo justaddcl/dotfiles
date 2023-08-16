@@ -286,6 +286,14 @@ install_configs() {
     curl -o $HOME/ 'https://raw.githubusercontent.com/justaddcl/dotfiles/main/configs/.zshrc'
     task_done "Installed ZSH config"
     installed_list+=("ZSH config")
+
+    task_start "Downloading Raycast config..."
+    raycast_dir="${HOME}/Documents/Raycast"
+    if [ ! -d "${raycast_dir}" ]; then
+        mkdir "${raycast_dir}"
+    fi
+    curl -o ${raycast_dir} 'https://raw.githubusercontent.com/justaddcl/dotfiles/main/configs/2023-04-07.rayconfig'
+    task_done "Downloaded Raycast config
 }
 
 install_walls() {
