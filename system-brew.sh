@@ -332,7 +332,7 @@ print_success() {
 }
 
 print_already_installed() {
-    term_message bb "\n${#already_installed_list[@]} items were already installed and were skipped"
+    term_message bb "\n${#already_installed_list[@]} items were already installed"
     for already_installed in ${already_installed_list[@]}; do
         task_start $already_installed
     done
