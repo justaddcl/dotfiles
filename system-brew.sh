@@ -103,6 +103,7 @@ Description:    Automate the installation of macOS
                 Fork of autobrew.sh by Mark Bradley
 Author:         JustAddCl
 Requirements:   Command Line Tools (CLT) for Xcode
+
 EOF
 }
 
@@ -331,7 +332,7 @@ print_success() {
 }
 
 print_already_installed() {
-    term_message gb "\n${#already_installed_list[@]} items were already installed and were skipped"
+    term_message bb "\n${#already_installed_list[@]} items were already installed and were skipped"
     for already_installed in ${already_installed_list[@]}; do
         task_start $already_installed
     done
