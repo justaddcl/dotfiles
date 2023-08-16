@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 
+# Exit immediately if a non-zero status is returned
 set -o errexit
+# Set the return value of a pipeline to the value of the last (rightmost) command to exit with a non-zero status,
+# or zero if all commands in the pipeline exit successfully
 set -o pipefail
 
 installed_list=()
@@ -153,16 +156,16 @@ brew_packages() {
             task_start "Checking for tap > ${tap}"
             if brew tap | grep "${tap}" >/dev/null 2>&1 || command_exists "${tap}"; then
                 task_done "Tap ${tap} already added.$(tput el)"
-                already_installed_list+=( ${tap} )
+                already_installed_list+=(${tap})
             else
                 task_fail "\n"
                 term_message mb "Attempting to add tap ${tap}..."
                 if brew tap "${tap}"; then
                     task_done "Tap ${tap} added.\n"
-                    installed_list+=( ${tap} )
+                    installed_list+=(${tap})
                 else
                     task_fail "Unable to add tap ${tap}.\n"
-                    error_list+=( ${tap} )
+                    error_list+=(${tap})
                 fi
             fi
         done
@@ -173,16 +176,16 @@ brew_packages() {
             task_start "Checking for package > ${formula}"
             if brew list "${formula}" >/dev/null 2>&1 || command_exists "${formula}"; then
                 task_done "Package ${formula} already installed.$(tput el)"
-                already_installed_list+=( ${formula} )
+                already_installed_list+=(${formula})
             else
                 task_fail "\n"
                 term_message mb "Attempting to install ${formula}..."
                 if brew install "${formula}"; then
                     task_done "Package ${formula} installed.\n"
-                    installed_list+=( ${formula} )
+                    installed_list+=(${formula})
                 else
                     task_fail "Package ${formula} install failed.\n"
-                    error_list+=( ${formula} )
+                    error_list+=(${formula})
                 fi
             fi
         done
@@ -193,16 +196,16 @@ brew_packages() {
             task_start "Checking for cask package > ${cask}"
             if brew list --cask "${cask}" >/dev/null 2>&1; then
                 task_done "Package ${cask} already installed.$(tput el)"
-                already_installed_list+=( ${cask} )
+                already_installed_list+=(${cask})
             else
                 task_fail "\n"
                 term_message mb "Attempting to install ${cask}..."
                 if brew install --cask "${cask}"; then
                     task_done "Package ${cask} installed.\n"
-                    installed_list+=( ${cask} )
+                    installed_list+=(${cask})
                 else
                     task_fail "Package ${cask} install failed.\n"
-                    error_list+=( ${cask} )
+                    error_list+=(${cask})
                 fi
             fi
         done
@@ -225,101 +228,111 @@ install_zsh() {
 }
 
 install_mas() {
-  term_message cb "\nInstalling Mac App Store apps..."
-  # Mac App Store apps have IDs. You can find these
-  # with `mas search <name>`.
+    term_message cb "\nInstalling Mac App Store apps..."
+    # Mac App Store apps have IDs. You can find these
+    # with `mas search <name>`.
 
-  apps=(
-    1168254295 # AmorphousDiskMark https://apps.apple.com/us/app/amorphousdiskmark/id1168254295?mt=12
-    937984704 # Amphetamine: https://apps.apple.com/us/app/amphetamine/id937984704?mt=12
-    1643751440 # Energiza https://apps.apple.com/us/app/energiza-battery-monitor/id1643751440?mt=12
-    1423210932 # Flow - Focus & Pomodoro Timer: https://flowapp.info/
-    1452452150 # Hidden Bar https://apps.apple.com/us/developer/dwarves-foundation/id1452452150
-    1440405750 # MusicHarbor: https://apps.apple.com/us/app/musicharbor-track-new-music/id1440405750
-  )
+    apps=(
+        1168254295 # AmorphousDiskMark https://apps.apple.com/us/app/amorphousdiskmark/id1168254295?mt=12
+        937984704  # Amphetamine: https://apps.apple.com/us/app/amphetamine/id937984704?mt=12
+        1643751440 # Energiza https://apps.apple.com/us/app/energiza-battery-monitor/id1643751440?mt=12
+        1423210932 # Flow - Focus & Pomodoro Timer: https://flowapp.info/
+        1452452150 # Hidden Bar https://apps.apple.com/us/developer/dwarves-foundation/id1452452150
+        1440405750 # MusicHarbor: https://apps.apple.com/us/app/musicharbor-track-new-music/id1440405750
+    )
 
-  task_start "Installing apps..."
+    for app in "${apps[@]}"; do
+        if mas list | grep $app >/dev/null 2>&1; then
+            task_start "App ID: $app already installed\n"
+            already_installed_list+=(${app})
+        else
+            if mas info ${app} >/dev/null 2>&1; then
+                task_fail "Cannot find app ID: ${app} on the Mac App Store"
+                error_list+=(${app})
+            else
+                task_start "Installing ${app}"
+                mas install $app
+                task_done "App ID: ${app} installed"
+                installed_list+=(${app})
+            fi
+        fi
+    done
 
-  for app in "${apps[@]}"; do
-      mas install $app
-      installed_list+=( ${app} )
-  done
-
-  task_done "Mac apps installed.\n"
+    task_done "Mac apps installed.\n"
 }
 
 install_configs() {
-  term_message cb "\nSetting up preferences..."
+    term_message cb "\nSetting up preferences..."
 
-  task_start "Downloading preferences..."
-  curl -o ~/Library/Preferences 'https://github.com/justaddcl/dotfiles/raw/main/configs/com.apple.dock.plist'
-  curl -o ~/Library/Preferences 'https://github.com/justaddcl/dotfiles/raw/main/configs/com.apple.EmojiPreferences.plist'
-  task_done "Preferences downloaded.\n"
+    task_start "Downloading preferences..."
+    curl -o ~/Library/Preferences 'https://github.com/justaddcl/dotfiles/raw/main/configs/com.apple.dock.plist'
+    curl -o ~/Library/Preferences 'https://github.com/justaddcl/dotfiles/raw/main/configs/com.apple.EmojiPreferences.plist'
+    task_done "Preferences downloaded.\n"
 
-  task_start "Copying ZSH config..."
-  curl -o ~/ 'https://raw.githubusercontent.com/justaddcl/dotfiles/main/configs/.zshrc'
-  task_done "ZSH config copied."
+    task_start "Copying ZSH config..."
+    curl -o ~/ 'https://raw.githubusercontent.com/justaddcl/dotfiles/main/configs/.zshrc'
+    task_done "ZSH config copied."
 }
 
 install_lockscreen_image() {
-  term_message cb "\nInstalling lockscreen..."
-  desktop_pictures_dir='/Library/Caches/Desktop Pictures'
+    term_message cb "\nInstalling lockscreen..."
+    desktop_pictures_dir='/Library/Caches/Desktop Pictures'
 
-  task_start "Getting User UUID..."
-  uuidWithFieldName=$(dscl . -read "/Users/$USER" GeneratedUID)
-  uuid=${uuidWithFieldName#'GeneratedUID: '}
-  task_done "User UUID retrieved. \n"
+    task_start "Getting User UUID..."
+    uuidWithFieldName=$(dscl . -read "/Users/$USER" GeneratedUID)
+    uuid=${uuidWithFieldName#'GeneratedUID: '}
+    task_done "User UUID retrieved. \n"
 
-  task_start "Checking for desktop pictures directories..."
+    task_start "Checking for desktop pictures directories..."
 
-  # check if the /Library/Caches/Desktop Pictures directory exists
-  if [ -d "$desktop_pictures_dir/" ]; then
+    # check if the /Library/Caches/Desktop Pictures directory exists
+    if [ -d "$desktop_pictures_dir/" ]; then
 
-    # check if there's a subfolder with the user's UUID
-    if [ -d "$desktop_pictures_dir/$uuid/" ]; then
-      task_done "Desktop pictures directories confirmed.\n"
-      task_start "Installing lockscreen image..."
+        # check if there's a subfolder with the user's UUID
+        if [ -d "$desktop_pictures_dir/$uuid/" ]; then
+            task_done "Desktop pictures directories confirmed.\n"
+            task_start "Installing lockscreen image..."
 
-      # check if a lockscreen.png already exists
-      if [ -f "$desktop_pictures_dir/$uuid/lockscreen.png" ]; then
-          task_fail "Lockscreen image already exists in $desktop_pictures_dir/$uuid. Skipping copy. \n"
+            # check if a lockscreen.png already exists
+            if [ -f "$desktop_pictures_dir/$uuid/lockscreen.png" ]; then
+                task_fail "Lockscreen image already exists in $desktop_pictures_dir/$uuid. Skipping copy. \n"
+            else
+
+                # check if repo has lockscreen to copy
+                if [ -f ./configs/lockscreen.png ]; then
+                    curl -o $desktop_pictures_dir/$uuid/ 'https://github.com/justaddcl/dotfiles/blob/main/configs/lockscreen.png?raw=true'
+                    task_done "Lockscreen image copied into $desktop_pictures_dir/$uuid.\n"
+                else
+                    task_fail "./configs/ does not have a lockscreen image to copy. \n"
+                fi
+            fi
         else
-
-          # check if repo has lockscreen to copy
-          if [ -f ./configs/lockscreen.png ]; then
-            curl -o $desktop_pictures_dir/$uuid/ 'https://github.com/justaddcl/dotfiles/blob/main/configs/lockscreen.png?raw=true'
-            task_done "Lockscreen image copied into $desktop_pictures_dir/$uuid.\n"
-          else
-            task_fail "./configs/ does not have a lockscreen image to copy. \n"
-          fi
-      fi
+            task_fail "Desktop pictures directory for $uuid does not exist. \n"
+        fi
     else
-      task_fail "Desktop pictures directory for $uuid does not exist. \n"
+        task_fail "Error: /Library/Caches/Desktop Pictures/ directory does not exist. \n"
     fi
-  else
-      task_fail "Error: /Library/Caches/Desktop Pictures/ directory does not exist. \n"
-  fi
 }
 
 print_success() {
-  term_message gb "\n${#success_list[@]} items installed"
-  for success in ${success_list[@]}; do
-    task_done $success
-  done
+    term_message gb "\n${#success_list[@]} items installed"
+    for success in ${success_list[@]}; do
+        task_done $success
+    done
 }
 
 print_already_installed() {
-  term_message gb "\n${#already_installed_list[@]} items were already installed and were skipped"
-  for already_installed in ${already_installed_list[@]}; do
-    task_start $already_installed
-  done
+    term_message gb "\n${#already_installed_list[@]} items were already installed and were skipped"
+    for already_installed in ${already_installed_list[@]}; do
+        task_start $already_installed
+    done
 }
 
 print_errors() {
-  term_message rb "\n${#error_list[@]} items failed"
-  for error in ${error_list[@]}; do
-    task_fail $error
-  done
+    term_message rb "\n${#error_list[@]} items failed"
+    for error in ${error_list[@]}; do
+        task_fail $error
+    done
 }
 
 tap_list=(
