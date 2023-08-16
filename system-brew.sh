@@ -255,9 +255,13 @@ install_mas() {
                 error_list+=(${app})
             else
                 task_start "Installing ${app}"
-                mas install $app
-                task_done "App ID: ${app} installed"
-                installed_list+=(${app})
+                if mas install $app; then
+                    task_done "App ID: ${app} installed"
+                    installed_list+=(${app})
+                else
+                    task_fail "App ID: ${app} install failed"
+                    error_list+=(${cask})
+                fi
             fi
         fi
     done
