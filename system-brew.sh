@@ -293,7 +293,7 @@ install_configs() {
         mkdir "${raycast_dir}"
     fi
     curl -o ${raycast_dir} 'https://raw.githubusercontent.com/justaddcl/dotfiles/main/configs/2023-04-07.rayconfig'
-    task_done "Downloaded Raycast config
+    task_done "Downloaded Raycast config"
 }
 
 install_walls() {
