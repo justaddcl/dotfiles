@@ -226,9 +226,15 @@ brew_cleanup() {
 }
 
 install_zsh() {
-    task_start "Installing ZSH..."
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-    task_done "ZSH installed.\n"
+    if ! which "zsh" >/dev/null 2>&1; then
+        task_start "Installing ZSH..."
+        sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+        task_done "ZSH installed.\n"
+        success_list+=('ZSH')
+    else
+        task_start "ZSH already installed\n"
+        already_installed_list+=('ZSH')
+    fi
 }
 
 install_mas() {
@@ -293,7 +299,7 @@ install_configs() {
         mkdir "${raycast_dir}"
     fi
     curl -o ${raycast_dir} 'https://raw.githubusercontent.com/justaddcl/dotfiles/main/configs/2023-04-07.rayconfig'
-    task_done "Downloaded Raycast config
+    task_done "Downloaded Raycast config"
 }
 
 install_walls() {
@@ -389,7 +395,7 @@ print_success() {
 print_already_installed() {
     term_message bb "\n${#already_installed_list[@]} items were already installed"
     for already_installed in ${already_installed_list[@]}; do
-        task_start $already_installed
+        task_start "$already_installed\n"
     done
 }
 
