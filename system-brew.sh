@@ -311,7 +311,7 @@ install_walls() {
     fi
 
     task_start "Downloading wallpapers"
-    curl -o $HOME/ 'https://raw.githubusercontent.com/justaddcl/dotfiles/main/configs/Walls.zip'
+    curl -L "https://drive.google.com/file/d/1SLGW6dZ_6vEZp4BOfKXnBo9uKoM2r7wD/view?usp=drive_link" -o ${target_dir}/Walls.zip
     task_done "Downloaded wallpapers"
 
     task_start "Unzipping wallpapers"
