@@ -250,7 +250,7 @@ install_mas() {
             task_start "App ID: $app already installed\n"
             already_installed_list+=(${app})
         else
-            if mas info ${app} >/dev/null 2>&1; then
+            if ! mas info ${app} >/dev/null 2>&1; then
                 task_fail "Cannot find app ID: ${app} on the Mac App Store"
                 error_list+=(${app})
             else
@@ -273,19 +273,62 @@ install_configs() {
     term_message cb "\nSetting up preferences..."
 
     task_start "Downloading dock preferences"
-    curl -o ~/Library/Preferences 'https://github.com/justaddcl/dotfiles/raw/main/configs/com.apple.dock.plist'
+    curl -o $HOME/Library/Preferences 'https://github.com/justaddcl/dotfiles/raw/main/configs/com.apple.dock.plist'
     task_done "Installed dock preferences at 'https://github.com/justaddcl/dotfiles/raw/main/configs/com.apple.dock.plist'"
     installed_list+=("Dock preferences")
 
     task_start "Downloading emoji preferences"
-    curl -o ~/Library/Preferences 'https://github.com/justaddcl/dotfiles/raw/main/configs/com.apple.EmojiPreferences.plist'
+    curl -o $HOME/Library/Preferences 'https://github.com/justaddcl/dotfiles/raw/main/configs/com.apple.EmojiPreferences.plist'
     task_done "Installed emoji preferences at 'https://github.com/justaddcl/dotfiles/raw/main/configs/com.apple.dock.plist'"
     installed_list+=("Emoji preferences")
 
     task_start "Downloading ZSH config..."
-    curl -o ~/ 'https://raw.githubusercontent.com/justaddcl/dotfiles/main/configs/.zshrc'
+    curl -o $HOME/ 'https://raw.githubusercontent.com/justaddcl/dotfiles/main/configs/.zshrc'
     task_done "Installed ZSH config"
     installed_list+=("ZSH config")
+}
+
+install_walls() {
+    term_message cb "\nInstalling wallpapers..."
+
+    target_dir="$HOME/Pictures"
+
+    if [ -d "${target_dir}/Walls/" ]; then
+        local response
+        while true; do
+            read -r -p "There is already a wallpapers folder in ${target_dir} Do you want to continue? (y/n) " response
+            case "${response}" in
+            [yY][eE][sS] | [yY])
+                echo
+                break
+                ;;
+            *)
+                echo
+                exit
+                ;;
+            esac
+        done
+    fi
+
+    task_start "Downloading wallpapers"
+    curl -L "https://drive.google.com/file/d/1SLGW6dZ_6vEZp4BOfKXnBo9uKoM2r7wD/view?usp=drive_link" -o ${target_dir}/Walls.zip
+    task_done "Downloaded wallpapers"
+
+    task_start "Unzipping wallpapers"
+    unzip -d ${target_dir}/Walls ${target_dir}/Walls.zip
+    task_done "Unzipped wallpapers"
+
+    task_start "Removing .zip file"
+    rm ${target_dir}/Walls.zip
+    task_done "Removed .zip file"
+
+    if [ -d "${target_dir}/Walls/__MACOSX" ]; then
+        task_start "Removing __MACOSX folder"
+        rm -r ${target_dir}/Walls/__MACOSX
+        task_done "Removed __MACOSX folder"
+    fi
+
+    term_message gb "\nWallpapers installed."
 }
 
 install_lockscreen_image() {
@@ -392,6 +435,7 @@ formulae_list=(
     ripgrep
     tmux
     typescript
+    unzip
     wget
     yarn
 )
@@ -448,6 +492,8 @@ main() {
     install_mas
     install_zsh
     install_configs
+    install_walls
+    install_lockscreen_image
 }
 
 main "${@}"
