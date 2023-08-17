@@ -99,7 +99,7 @@ script_info() {
     cat <<EOF
 
 Name:           system-brew.sh
-Version:        v1.0.25
+Version:        v1.0.26
 Description:    Automate the installation of macOS
                 applications and packages using homebrew.
                 Fork of autobrew.sh by Mark Bradley
@@ -384,7 +384,7 @@ install_walls() {
 
 install_lockscreen_image() {
     term_message cb "\nInstalling lockscreen..."
-    desktop_pictures_dir='/Library/Caches/Desktop Pictures'
+    desktop_pictures_dir="/Library/Caches/Desktop\ Pictures"
 
     task_start "Getting User UUID..."
     uuidWithFieldName=$(dscl . -read "/Users/$USER" GeneratedUID)
