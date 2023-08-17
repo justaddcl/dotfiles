@@ -98,7 +98,7 @@ script_info() {
     cat <<EOF
 
 Name:           system-brew.sh
-Version:        v1.0.21
+Version:        v1.0.22
 Description:    Automate the installation of macOS
                 applications and packages using homebrew.
                 Fork of autobrew.sh by Mark Bradley
@@ -280,17 +280,17 @@ install_configs() {
     term_message cb "\nSetting up preferences..."
 
     task_start "Downloading dock preferences"
-    curl -o $HOME/Library/Preferences 'https://github.com/justaddcl/dotfiles/raw/main/configs/com.apple.dock.plist'
+    curl -o $HOME/Library/Preferences/com.apple.dock.plist 'https://github.com/justaddcl/dotfiles/raw/main/configs/com.apple.dock.plist'
     task_done "Installed dock preferences at 'https://github.com/justaddcl/dotfiles/raw/main/configs/com.apple.dock.plist'"
     installed_list+=("Dock preferences")
 
     task_start "Downloading emoji preferences"
-    curl -o $HOME/Library/Preferences 'https://github.com/justaddcl/dotfiles/raw/main/configs/com.apple.EmojiPreferences.plist'
+    curl -o $HOME/Library/Preferences/com.apple.EmojiPreferences.plist 'https://github.com/justaddcl/dotfiles/raw/main/configs/com.apple.EmojiPreferences.plist'
     task_done "Installed emoji preferences at 'https://github.com/justaddcl/dotfiles/raw/main/configs/com.apple.dock.plist'"
     installed_list+=("Emoji preferences")
 
     task_start "Downloading ZSH config..."
-    curl -o $HOME/ 'https://raw.githubusercontent.com/justaddcl/dotfiles/main/configs/.zshrc'
+    curl -o $HOME/.zshrc 'https://raw.githubusercontent.com/justaddcl/dotfiles/main/configs/.zshrc'
     task_done "Installed ZSH config"
     installed_list+=("ZSH config")
 
@@ -299,7 +299,7 @@ install_configs() {
     if [ ! -d "${raycast_dir}" ]; then
         mkdir "${raycast_dir}"
     fi
-    curl -o ${raycast_dir} 'https://raw.githubusercontent.com/justaddcl/dotfiles/main/configs/2023-04-07.rayconfig'
+    curl -o ${raycast_dir}/2023-04-07.rayconfig 'https://raw.githubusercontent.com/justaddcl/dotfiles/main/configs/2023-04-07.rayconfig'
     task_done "Downloaded Raycast config"
 }
 
@@ -372,7 +372,7 @@ install_lockscreen_image() {
 
                 # check if repo has lockscreen to copy
                 if [ -f ./configs/lockscreen.png ]; then
-                    curl -o $desktop_pictures_dir/$uuid/ 'https://github.com/justaddcl/dotfiles/blob/main/configs/lockscreen.png?raw=true'
+                    curl -o $desktop_pictures_dir/$uuid/lockscreen.png 'https://github.com/justaddcl/dotfiles/blob/main/configs/lockscreen.png?raw=true'
                     task_done "Lockscreen image copied into $desktop_pictures_dir/$uuid.\n"
                 else
                     task_fail "./configs/ does not have a lockscreen image to copy. \n"
