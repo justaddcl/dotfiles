@@ -74,7 +74,7 @@ task_fail() {
 check_continue() {
     local response
     while true; do
-        read -r -p "System brew will install Homebrew and associated formulae, cask, and some apps, MAS apps, and configs. Ready? (y/n) " response
+        read -r -p "System brew will install Homebrew, Homebrew packages, apps from the Mac App Store, ZSH, some preferences files, Raycast config, ZSH config, wallpapers, and a lockscreen image. Ready? (y/n) " response
         case "${response}" in
         [yY][eE][sS] | [yY])
             echo
@@ -98,7 +98,7 @@ script_info() {
     cat <<EOF
 
 Name:           system-brew.sh
-Version:        v1.0.22
+Version:        v1.0.23
 Description:    Automate the installation of macOS
                 applications and packages using homebrew.
                 Fork of autobrew.sh by Mark Bradley
@@ -279,6 +279,21 @@ install_mas() {
 install_configs() {
     term_message cb "\nSetting up preferences..."
 
+    local response
+    while true; do
+        read -r -p "There may already be configs in ${HOME}/Library/Preferences/, ${HOME}/.zshrc, and in ${raycast_dir} and continuing may overwrite those files. Do you want to continue? (y/n) " response
+        case "${response}" in
+        [yY][eE][sS] | [yY])
+            echo
+            break
+            ;;
+        *)
+            echo "User has skipped installing the configs"
+            return [n]
+            ;;
+        esac
+    done
+
     task_start "Downloading dock preferences"
     curl -o $HOME/Library/Preferences/com.apple.dock.plist 'https://github.com/justaddcl/dotfiles/raw/main/configs/com.apple.dock.plist'
     task_done "Installed dock preferences at 'https://github.com/justaddcl/dotfiles/raw/main/configs/com.apple.dock.plist'"
@@ -307,43 +322,80 @@ install_walls() {
     term_message cb "\nInstalling wallpapers..."
 
     target_dir="$HOME/Pictures"
+    walls_zip_filename="Walls.zip"
 
     if [ -d "${target_dir}/Walls/" ]; then
         local response
         while true; do
-            read -r -p "There is already a wallpapers folder in ${target_dir} Do you want to continue? (y/n) " response
+            read -r -p "There is already a wallpapers folder in ${target_dir}. Do you want to continue? (y/n) " response
             case "${response}" in
             [yY][eE][sS] | [yY])
                 echo
                 break
                 ;;
             *)
-                echo
-                exit
+                echo "Skipping wallpapers installation"
+                return [n]
                 ;;
             esac
         done
     fi
 
-    task_start "Downloading wallpapers"
-    curl -L "https://drive.google.com/file/d/1SLGW6dZ_6vEZp4BOfKXnBo9uKoM2r7wD/view?usp=drive_link" -o ${target_dir}/Walls.zip
-    task_done "Downloaded wallpapers"
-
-    task_start "Unzipping wallpapers"
-    unzip -d ${target_dir}/Walls ${target_dir}/Walls.zip
-    task_done "Unzipped wallpapers"
-
-    task_start "Removing .zip file"
-    rm ${target_dir}/Walls.zip
-    task_done "Removed .zip file"
-
-    if [ -d "${target_dir}/Walls/__MACOSX" ]; then
-        task_start "Removing __MACOSX folder"
-        rm -r ${target_dir}/Walls/__MACOSX
-        task_done "Removed __MACOSX folder"
+    task_start "Downloading wallpapers...\n"
+    if [ -f "${target_dir}/${walls_zip_filename}" ]; then
+        local response
+        while true; do
+            read -r -p "There is already a wallpapers zip file in ${target_dir}. Do you want to continue? (y/n) " response
+            case "${response}" in
+            [yY][eE][sS] | [yY])
+                echo
+                break
+                ;;
+            *)
+                echo "Did not download the wallpapers since a .zip file with the same name already exists in ${target_dir}"
+                return [n]
+                ;;
+            esac
+        done
     fi
 
-    term_message gb "\nWallpapers installed."
+    if curl -L "https://s3.us-west-2.amazonaws.com/demo.yujinelson.com/${walls_zip_filename}" -o ${target_dir}/${walls_zip_filename}; then
+        task_done "Downloaded wallpapers"
+    else
+        task_fail "Could not download wallpapers"
+    fi
+
+    if [ -f "${target_dir}/${walls_zip_filename}" ]; then
+        task_start "Unzipping wallpapers..."
+        if unzip -q ${target_dir}/${walls_zip_filename} -d ${target_dir}/Walls; then
+            task_done "Unzipped wallpapers to ${target_dir}/Walls"
+        else
+            task_fail "Could not unzip wallpaper"
+        fi
+
+        task_start "Removing .zip file"
+        rm ${target_dir}/${walls_zip_filename}
+        task_done "Removed .zip file"
+
+        if [ -d "${target_dir}/Walls/Walls" ]; then
+            task_start "Cleaning up Walls/Walls folder..."
+            mv -i $target_dir/Walls/Walls/* $target_dir/Walls/
+
+            if rm -r ${target_dir}/Walls/Walls; then
+                task_done "Removed Walls/Walls folder"
+            else
+                task_fail "Could not automatically remove Walls/Walls folder"
+            fi
+        fi
+
+        if [ -d "${target_dir}/Walls/__MACOSX" ]; then
+            task_start "Removing __MACOSX folder..."
+            rm -r ${target_dir}/Walls/__MACOSX
+            task_done "Removed __MACOSX folder"
+        fi
+
+        term_message gb "\nWallpapers installed."
+    fi
 }
 
 install_lockscreen_image() {
