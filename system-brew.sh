@@ -289,7 +289,7 @@ install_configs() {
             ;;
         *)
             echo "User has skipped installing the configs"
-            return [n]
+            return 1
             ;;
         esac
     done
@@ -335,7 +335,7 @@ install_walls() {
                 ;;
             *)
                 echo "Skipping wallpapers installation"
-                return [n]
+                return 1
                 ;;
             esac
         done
@@ -353,7 +353,7 @@ install_walls() {
                 ;;
             *)
                 echo "Did not download the wallpapers since a .zip file with the same name already exists in ${target_dir}"
-                return [n]
+                return 1
                 ;;
             esac
         done
