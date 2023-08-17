@@ -74,7 +74,7 @@ task_fail() {
 check_continue() {
     local response
     while true; do
-        read -r -p "System brew will install Homebrew and associated formulae, cask, and some apps, MAS apps, and configs. Ready? (y/n) " response
+        read -r -p "System brew will install Homebrew, Homebrew packages, apps from the Mac App Store, ZSH, some preferences files, Raycast config, ZSH config, wallpapers, and a lockscreen image. Ready? (y/n) " response
         case "${response}" in
         [yY][eE][sS] | [yY])
             echo
@@ -98,7 +98,7 @@ script_info() {
     cat <<EOF
 
 Name:           system-brew.sh
-Version:        v1.0.22
+Version:        v1.0.23
 Description:    Automate the installation of macOS
                 applications and packages using homebrew.
                 Fork of autobrew.sh by Mark Bradley
@@ -279,6 +279,21 @@ install_mas() {
 install_configs() {
     term_message cb "\nSetting up preferences..."
 
+    local response
+    while true; do
+        read -r -p "There may already be configs in ${HOME}/Library/Preferences/, ${HOME}/.zshrc, and in ${raycast_dir} and continuing may overwrite those files. Do you want to continue? (y/n) " response
+        case "${response}" in
+        [yY][eE][sS] | [yY])
+            echo
+            break
+            ;;
+        *)
+            echo "User has skipped installing the configs"
+            return [n]
+            ;;
+        esac
+    done
+
     task_start "Downloading dock preferences"
     curl -o $HOME/Library/Preferences/com.apple.dock.plist 'https://github.com/justaddcl/dotfiles/raw/main/configs/com.apple.dock.plist'
     task_done "Installed dock preferences at 'https://github.com/justaddcl/dotfiles/raw/main/configs/com.apple.dock.plist'"
@@ -312,7 +327,7 @@ install_walls() {
     if [ -d "${target_dir}/Walls/" ]; then
         local response
         while true; do
-            read -r -p "There is already a wallpapers folder in ${target_dir} Do you want to continue? (y/n) " response
+            read -r -p "There is already a wallpapers folder in ${target_dir}. Do you want to continue? (y/n) " response
             case "${response}" in
             [yY][eE][sS] | [yY])
                 echo
@@ -320,7 +335,7 @@ install_walls() {
                 ;;
             *)
                 echo "Skipping wallpapers installation"
-                exit
+                return [n]
                 ;;
             esac
         done
@@ -330,7 +345,7 @@ install_walls() {
     if [ -f "${target_dir}/${walls_zip_filename}" ]; then
         local response
         while true; do
-            read -r -p "There is already a wallpapers zip file in ${target_dir} Do you want to continue? (y/n) " response
+            read -r -p "There is already a wallpapers zip file in ${target_dir}. Do you want to continue? (y/n) " response
             case "${response}" in
             [yY][eE][sS] | [yY])
                 echo
@@ -338,7 +353,7 @@ install_walls() {
                 ;;
             *)
                 echo "Did not download the wallpapers since a .zip file with the same name already exists in ${target_dir}"
-                exit
+                return [n]
                 ;;
             esac
         done
