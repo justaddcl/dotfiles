@@ -411,30 +411,23 @@ install_lockscreen_image() {
 
     # check if the /Library/Caches/Desktop Pictures directory exists
     if [ -d "$desktop_pictures_dir/" ]; then
+        task_done "Desktop pictures directories confirmed."
 
         # check if there's a subfolder with the user's UUID
         if [ -d "$desktop_pictures_dir/$uuid/" ]; then
-            task_done "Desktop pictures directories confirmed.\n"
-            task_start "Installing lockscreen image..."
-
+            task_start "Downloading lockscreen image..."
             # check if a lockscreen.png already exists
             if [ -f "$desktop_pictures_dir/$uuid/lockscreen.png" ]; then
-                task_fail "Lockscreen image already exists in $desktop_pictures_dir/$uuid. Skipping copy. \n"
+                task_fail "Lockscreen image already exists in $desktop_pictures_dir/$uuid. Skipping download.\n"
             else
-
-                # check if repo has lockscreen to copy
-                if [ -f ./configs/lockscreen.png ]; then
-                    curl -o $desktop_pictures_dir/$uuid/lockscreen.png 'https://github.com/justaddcl/dotfiles/blob/main/configs/lockscreen.png?raw=true'
-                    task_done "Lockscreen image copied into $desktop_pictures_dir/$uuid.\n"
-                else
-                    task_fail "./configs/ does not have a lockscreen image to copy. \n"
-                fi
+                curl -o $desktop_pictures_dir/$uuid/lockscreen.png 'https://github.com/justaddcl/dotfiles/blob/main/configs/lockscreen.png?raw=true'
+                task_done "Lockscreen image downloaded into $desktop_pictures_dir/$uuid.\n"
             fi
         else
-            task_fail "Desktop pictures directory for $uuid does not exist. \n"
+            task_fail "Desktop pictures directory for $uuid does not exist.\n"
         fi
     else
-        task_fail "Error: /Library/Caches/Desktop Pictures/ directory does not exist. \n"
+        task_fail "Error: /Library/Caches/Desktop Pictures/ directory does not exist.\n"
     fi
 }
 
