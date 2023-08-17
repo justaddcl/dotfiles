@@ -12,6 +12,7 @@ trap handle_exit SIGINT SIGTERM ERR EXIT
 installed_list=()
 error_list=()
 already_installed_list=()
+has_printed_summary=false
 
 # Function to set terminal colors if supported.
 term_colors() {
@@ -278,44 +279,38 @@ install_mas() {
 
 install_configs() {
     term_message cb "\nSetting up preferences..."
-
     local response
-    while true; do
-        read -r -p "There may already be configs in ${HOME}/Library/Preferences/, ${HOME}/.zshrc, and in ${raycast_dir} and continuing may overwrite those files. Do you want to continue? (y/n) " response
-        case "${response}" in
-        [yY][eE][sS] | [yY])
-            echo
-            break
-            ;;
-        *)
-            echo "User has skipped installing the configs"
-            return 1
-            ;;
-        esac
-    done
+    read -r -p "There may already be configs in ${HOME}/Library/Preferences/, ${HOME}/.zshrc, and in ${raycast_dir} and continuing may overwrite those files. Do you want to continue? (y/n) " response
+    if [[ ${response,,} =~ ^(y|yes)$ ]]; then
+        task_start "Downloading dock preferences"
+        curl -o $HOME/Library/Preferences/com.apple.dock.plist 'https://github.com/justaddcl/dotfiles/raw/main/configs/com.apple.dock.plist'
+        task_done "Installed dock preferences at 'https://github.com/justaddcl/dotfiles/raw/main/configs/com.apple.dock.plist'"
+        installed_list+=("Dock preferences")
 
-    task_start "Downloading dock preferences"
-    curl -o $HOME/Library/Preferences/com.apple.dock.plist 'https://github.com/justaddcl/dotfiles/raw/main/configs/com.apple.dock.plist'
-    task_done "Installed dock preferences at 'https://github.com/justaddcl/dotfiles/raw/main/configs/com.apple.dock.plist'"
-    installed_list+=("Dock preferences")
+        task_start "Downloading emoji preferences"
+        curl -o $HOME/Library/Preferences/com.apple.EmojiPreferences.plist 'https://github.com/justaddcl/dotfiles/raw/main/configs/com.apple.EmojiPreferences.plist'
+        task_done "Installed emoji preferences at 'https://github.com/justaddcl/dotfiles/raw/main/configs/com.apple.dock.plist'"
+        installed_list+=("Emoji preferences")
 
-    task_start "Downloading emoji preferences"
-    curl -o $HOME/Library/Preferences/com.apple.EmojiPreferences.plist 'https://github.com/justaddcl/dotfiles/raw/main/configs/com.apple.EmojiPreferences.plist'
-    task_done "Installed emoji preferences at 'https://github.com/justaddcl/dotfiles/raw/main/configs/com.apple.dock.plist'"
-    installed_list+=("Emoji preferences")
+        task_start "Downloading ZSH config..."
+        curl -o $HOME/.zshrc 'https://raw.githubusercontent.com/justaddcl/dotfiles/main/configs/.zshrc'
+        task_done "Installed ZSH config"
+        installed_list+=("ZSH config")
 
-    task_start "Downloading ZSH config..."
-    curl -o $HOME/.zshrc 'https://raw.githubusercontent.com/justaddcl/dotfiles/main/configs/.zshrc'
-    task_done "Installed ZSH config"
-    installed_list+=("ZSH config")
-
-    task_start "Downloading Raycast config..."
-    raycast_dir="${HOME}/Documents/Raycast"
-    if [ ! -d "${raycast_dir}" ]; then
-        mkdir "${raycast_dir}"
+        task_start "Downloading Raycast config..."
+        raycast_dir="${HOME}/Documents/Raycast"
+        if [ ! -d "${raycast_dir}" ]; then
+            mkdir "${raycast_dir}"
+        fi
+        curl -o ${raycast_dir}/2023-04-07.rayconfig 'https://raw.githubusercontent.com/justaddcl/dotfiles/main/configs/2023-04-07.rayconfig'
+        task_done "Downloaded Raycast config"
+        installed_list+=("Raycase config")
+    else
+        task_fail "User has skipped installing the configs"
+        error_list+=("Configs")
+        return 0
     fi
-    curl -o ${raycast_dir}/2023-04-07.rayconfig 'https://raw.githubusercontent.com/justaddcl/dotfiles/main/configs/2023-04-07.rayconfig'
-    task_done "Downloaded Raycast config"
+
 }
 
 install_walls() {
@@ -326,76 +321,65 @@ install_walls() {
 
     if [ -d "${target_dir}/Walls/" ]; then
         local response
-        while true; do
-            read -r -p "There is already a wallpapers folder in ${target_dir}. Do you want to continue? (y/n) " response
-            case "${response}" in
-            [yY][eE][sS] | [yY])
-                echo
-                break
-                ;;
-            *)
-                echo "Skipping wallpapers installation"
-                return 1
-                ;;
-            esac
-        done
-    fi
+        read -r -p "There is already a wallpapers zip file in ${target_dir}. Do you want to continue? (y/n) " response
+        if [[ ${response,,} =~ ^(y|yes)$ ]]; then
+            task_start "Downloading wallpapers...\n"
+            if [ -f "${target_dir}/${walls_zip_filename}" ]; then
+                local response
+                read -r -p "There is already a wallpapers folder in ${target_dir}. Do you want to continue? (y/n) " response
+                if [[ ${response,,} =~ ^(y|yes)$ ]]; then
+                    if curl -L "https://s3.us-west-2.amazonaws.com/demo.yujinelson.com/${walls_zip_filename}" -o ${target_dir}/${walls_zip_filename}; then
+                        task_done "Downloaded wallpapers"
+                    else
+                        task_fail "Could not download wallpapers"
+                        error_list+=("Wallpapers")
+                    fi
 
-    task_start "Downloading wallpapers...\n"
-    if [ -f "${target_dir}/${walls_zip_filename}" ]; then
-        local response
-        while true; do
-            read -r -p "There is already a wallpapers zip file in ${target_dir}. Do you want to continue? (y/n) " response
-            case "${response}" in
-            [yY][eE][sS] | [yY])
-                echo
-                break
-                ;;
-            *)
-                echo "Did not download the wallpapers since a .zip file with the same name already exists in ${target_dir}"
-                return 1
-                ;;
-            esac
-        done
-    fi
+                    if [ -f "${target_dir}/${walls_zip_filename}" ]; then
+                        task_start "Unzipping wallpapers..."
+                        if unzip -q ${target_dir}/${walls_zip_filename} -d ${target_dir}/Walls; then
+                            task_done "Unzipped wallpapers to ${target_dir}/Walls"
+                        else
+                            task_fail "Could not unzip wallpaper"
+                        fi
 
-    if curl -L "https://s3.us-west-2.amazonaws.com/demo.yujinelson.com/${walls_zip_filename}" -o ${target_dir}/${walls_zip_filename}; then
-        task_done "Downloaded wallpapers"
-    else
-        task_fail "Could not download wallpapers"
-    fi
+                        task_start "Removing .zip file"
+                        rm ${target_dir}/${walls_zip_filename}
+                        task_done "Removed .zip file"
 
-    if [ -f "${target_dir}/${walls_zip_filename}" ]; then
-        task_start "Unzipping wallpapers..."
-        if unzip -q ${target_dir}/${walls_zip_filename} -d ${target_dir}/Walls; then
-            task_done "Unzipped wallpapers to ${target_dir}/Walls"
-        else
-            task_fail "Could not unzip wallpaper"
-        fi
+                        if [ -d "${target_dir}/Walls/Walls" ]; then
+                            task_start "Cleaning up Walls/Walls folder..."
+                            mv -i $target_dir/Walls/Walls/* $target_dir/Walls/
 
-        task_start "Removing .zip file"
-        rm ${target_dir}/${walls_zip_filename}
-        task_done "Removed .zip file"
+                            if rm -r ${target_dir}/Walls/Walls; then
+                                task_done "Removed Walls/Walls folder"
+                            else
+                                task_fail "Could not automatically remove Walls/Walls folder"
+                            fi
+                        fi
 
-        if [ -d "${target_dir}/Walls/Walls" ]; then
-            task_start "Cleaning up Walls/Walls folder..."
-            mv -i $target_dir/Walls/Walls/* $target_dir/Walls/
+                        if [ -d "${target_dir}/Walls/__MACOSX" ]; then
+                            task_start "Removing __MACOSX folder..."
+                            rm -r ${target_dir}/Walls/__MACOSX
+                            task_done "Removed __MACOSX folder"
+                        fi
 
-            if rm -r ${target_dir}/Walls/Walls; then
-                task_done "Removed Walls/Walls folder"
-            else
-                task_fail "Could not automatically remove Walls/Walls folder"
+                        term_message gb "\nWallpapers installed."
+                        success_list+=("Wallpapers")
+                    fi
+                else
+                    task_fail "Skipping wallpapers installation"
+                    error_list+=("Wallpapers")
+                    return 0
+                fi
             fi
+        else
+            task_fail "Skipping wallpapers installation"
+            error_list+=("Wallpapers")
+            return 0
         fi
-
-        if [ -d "${target_dir}/Walls/__MACOSX" ]; then
-            task_start "Removing __MACOSX folder..."
-            rm -r ${target_dir}/Walls/__MACOSX
-            task_done "Removed __MACOSX folder"
-        fi
-
-        term_message gb "\nWallpapers installed."
     fi
+
 }
 
 install_lockscreen_image() {
@@ -480,6 +464,7 @@ tap_list=(
 )
 
 formulae_list=(
+    bash
     bat
     bat-extras
     curl
