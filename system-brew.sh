@@ -230,7 +230,7 @@ brew_cleanup() {
 install_zsh() {
     if ! which "zsh" >/dev/null 2>&1; then
         task_start "Installing ZSH..."
-        sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+        sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
         task_done "ZSH installed.\n"
         success_list+=('ZSH')
     else
