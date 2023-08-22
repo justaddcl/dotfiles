@@ -292,6 +292,11 @@ install_configs() {
         task_done "Installed emoji preferences at 'https://github.com/justaddcl/dotfiles/raw/main/configs/com.apple.dock.plist'"
         installed_list+=("Emoji preferences")
 
+        task_start "Downloading ZSH Cerulean theme..."
+        curl -o $HOME/.oh-my-zsh/themes/cerulean.zsh-theme 'https://raw.githubusercontent.com/justaddcl/dotfiles/main/configs/cerulean.zsh-theme'
+        task_done "Installed ZSH Cerulean theme"
+        installed_list+=("ZSH cerulean theme")
+
         task_start "Downloading ZSH config..."
         curl -o $HOME/.zshrc 'https://raw.githubusercontent.com/justaddcl/dotfiles/main/configs/.zshrc'
         task_done "Installed ZSH config"

@@ -1,20 +1,18 @@
-# Fig pre block. Keep at the top of this file.
-[[ -f "$HOME/.fig/shell/zshrc.pre.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.pre.zsh"
 # If you come from bash you might have to change your $PATH.
 export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="/Users/yuji/.oh-my-zsh"
+export ZSH="$HOME/.oh-my-zsh"
 
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="cobalt2"
+ZSH_THEME="cerulean"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -76,19 +74,9 @@ ZSH_THEME="cobalt2"
 # Add wisely, as too many plugins slow down shell startup.
 
 plugins=(
-  appup
-  copypath
-  docker
-  docker-compose
-  gatsby
   git
-  heroku
-  history
   jsontools
-  macos
-  npm
   sudo
-  vscode
   zsh-autosuggestions
   zsh-syntax-highlighting
 )
@@ -118,16 +106,66 @@ source $ZSH/oh-my-zsh.sh
 # For a full list of active aliases, run `alias`.
 #
 # aliases
-alias zsh-config="code ~/.zshrc"
-alias zsh-reload="source ~/.zshrc"
+
+# ZSH configs aliases
+alias zsh-config="code $HOME/.zshrc"
+alias zsh-reload="source $HOME/.zshrc"
+
+# VSCode aliases
+alias vscode-ext="open $HOME/.vscode/extensions"
+
+# Postgres aliases
 alias pg-start="pg_ctl -D /usr/local/var/postgresql@11 start"
 alias pg-stop="pg_ctl -D /usr/local/var/postgresql@11 stop"
 alias pg-restart="pg_ctl -D /usr/local/var/postgresql@11 restart"
-alias vscode-ext="open ~/.vscode/extensions"
-#alias capScrn="node /Users/yujinelson/Repositories/Magpul-m2/scripts/visual-testing.js"
+
+# Teya development aliases
+export CSP_BFF_DIR="$HOME/Repos/backoffice-bff"
+export CSP_WEB_DIR="$HOME/Repos/global-backoffice-web"
+export WEB_PLAT_DIR="$HOME/Repos/salt-web-platform"
+
+alias cd-bff="cd $CSP_BFF_DIR"
+alias bff-code="cd-bff && vsc"
+alias bff-dev="cd-bff && yarn dev"
+
+alias cd-csp="cd $CSP_WEB_DIR"
+alias csp-code="cd-csp && vsc"
+alias csp-dev="cd-csp && yarn dev"
+
+alias cd-plat="cd $WEB_PLAT_DIR"
+alias plat-code="cd-plat && vsc"
+
+alias infra-provisioning-dashboard="$HOME//Repos/sp-dashboard"
+
+#alias capScrn="node $HOME/Repositories/Magpul-m2/scripts/visual-testing.js"
 #alias ohmyzsh="code ~/.oh-my-zsh"
+
+# Make sure .nvmrc files are honoured when you cd into a folder
+# export NVM_DIR=~/.nvm
+# source $(brew --prefix nvm)/nvm.sh
+# autoload -U add-zsh-hook
+# load-nvmrc() {
+#   local nvmrc_path
+#   nvmrc_path="$(nvm_find_nvmrc)"
+
+#   if [ -n "$nvmrc_path" ]; then
+#     local nvmrc_node_version
+#     nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
+
+#     if [ "$nvmrc_node_version" = "N/A" ]; then
+#       nvm install
+#     elif [ "$nvmrc_node_version" != "$(nvm version)" ]; then
+#       nvm use
+#     fi
+#   elif [ -n "$(PWD=$OLDPWD nvm_find_nvmrc)" ] && [ "$(nvm version)" != "$(nvm version default)" ]; then
+#     echo "Reverting to nvm default version"
+#     nvm use default
+#   fi
+# }
+# add-zsh-hook chpwd load-nvmrc
+# load-nvmrc
 
 # include z
 # . /usr/local/etc/profile.d/z.sh
 export PATH="/usr/local/opt/postgresql@11/bin:$PATH"
-source /Users/yuji/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source $HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
