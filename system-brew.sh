@@ -474,9 +474,11 @@ formulae_list=(
     bat-extras
     curl
     eslint
+    fzf
     gh
     gifski
     git
+    jq
     mas
     neovim
     node
@@ -488,6 +490,7 @@ formulae_list=(
     unzip
     wget
     yarn
+    zoxide
 )
 
 cask_list=(
@@ -507,9 +510,10 @@ cask_list=(
     firefox
     fliqlo
     flux
-    google-chrome
     font-inconsolata-for-powerline
     font-jetbrains-mono
+    google-chrome
+    itsycal
     kap
     notion
     paragon-ntfs
@@ -518,6 +522,7 @@ cask_list=(
     raycast
     rectangle
     rocket
+    shottr
     signal
     spotify
     steam
