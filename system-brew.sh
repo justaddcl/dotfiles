@@ -474,9 +474,11 @@ formulae_list=(
     bat-extras
     curl
     eslint
+    fzf
     gh
     gifski
     git
+    jq
     mas
     neovim
     node
@@ -488,6 +490,7 @@ formulae_list=(
     unzip
     wget
     yarn
+    zoxide
 )
 
 cask_list=(
