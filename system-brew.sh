@@ -507,9 +507,10 @@ cask_list=(
     firefox
     fliqlo
     flux
-    google-chrome
     font-inconsolata-for-powerline
     font-jetbrains-mono
+    google-chrome
+    itsycal
     kap
     notion
     paragon-ntfs
