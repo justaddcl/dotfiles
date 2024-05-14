@@ -519,6 +519,7 @@ cask_list=(
     raycast
     rectangle
     rocket
+    shottr
     signal
     spotify
     steam
