@@ -478,6 +478,7 @@ formulae_list=(
     gh
     gifski
     git
+    git-delta
     jq
     mas
     neovim
