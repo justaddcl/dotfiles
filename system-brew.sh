@@ -465,7 +465,6 @@ handle_exit() {
 }
 
 tap_list=(
-    homebrew/cask-fonts
 )
 
 formulae_list=(
