@@ -282,15 +282,15 @@ install_configs() {
     local response
     read -r -p "There may already be configs in ${HOME}/Library/Preferences/, ${HOME}/.zshrc, and in ${raycast_dir} and continuing may overwrite those files. Do you want to continue? (y/n) " response
     if [[ ${response,,} =~ ^(y|yes)$ ]]; then
-        task_start "Downloading dock preferences"
-        curl -o $HOME/Library/Preferences/com.apple.dock.plist 'https://github.com/justaddcl/dotfiles/raw/main/configs/com.apple.dock.plist'
-        task_done "Installed dock preferences at 'https://github.com/justaddcl/dotfiles/raw/main/configs/com.apple.dock.plist'"
-        installed_list+=("Dock preferences")
+        # task_start "Downloading dock preferences"
+        # curl -o $HOME/Library/Preferences/com.apple.dock.plist 'https://github.com/justaddcl/dotfiles/raw/main/configs/com.apple.dock.plist'
+        # task_done "Installed dock preferences at 'https://github.com/justaddcl/dotfiles/raw/main/configs/com.apple.dock.plist'"
+        # installed_list+=("Dock preferences")
 
-        task_start "Downloading emoji preferences"
-        curl -o $HOME/Library/Preferences/com.apple.EmojiPreferences.plist 'https://github.com/justaddcl/dotfiles/raw/main/configs/com.apple.EmojiPreferences.plist'
-        task_done "Installed emoji preferences at 'https://github.com/justaddcl/dotfiles/raw/main/configs/com.apple.dock.plist'"
-        installed_list+=("Emoji preferences")
+        # task_start "Downloading emoji preferences"
+        # curl -o $HOME/Library/Preferences/com.apple.EmojiPreferences.plist 'https://github.com/justaddcl/dotfiles/raw/main/configs/com.apple.EmojiPreferences.plist'
+        # task_done "Installed emoji preferences at 'https://github.com/justaddcl/dotfiles/raw/main/configs/com.apple.dock.plist'"
+        # installed_list+=("Emoji preferences")
 
         task_start "Downloading ZSH Cerulean theme..."
         curl -o $HOME/.oh-my-zsh/themes/cerulean.zsh-theme 'https://raw.githubusercontent.com/justaddcl/dotfiles/main/configs/cerulean.zsh-theme'
@@ -307,7 +307,7 @@ install_configs() {
         if [ ! -d "${raycast_dir}" ]; then
             mkdir "${raycast_dir}"
         fi
-        curl -o ${raycast_dir}/2023-04-07.rayconfig 'https://raw.githubusercontent.com/justaddcl/dotfiles/main/configs/2023-04-07.rayconfig'
+        curl -o ${raycast_dir}/2024-06-06.rayconfig 'https://raw.githubusercontent.com/justaddcl/dotfiles/main/configs/2024-06-06.rayconfig'
         task_done "Downloaded Raycast config"
         installed_list+=("Raycase config")
     else

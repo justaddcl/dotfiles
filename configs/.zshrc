@@ -119,23 +119,8 @@ alias pg-start="pg_ctl -D /usr/local/var/postgresql@11 start"
 alias pg-stop="pg_ctl -D /usr/local/var/postgresql@11 stop"
 alias pg-restart="pg_ctl -D /usr/local/var/postgresql@11 restart"
 
-# Teya development aliases
-export CSP_BFF_DIR="$HOME/Repos/backoffice-bff"
-export CSP_WEB_DIR="$HOME/Repos/global-backoffice-web"
-export WEB_PLAT_DIR="$HOME/Repos/salt-web-platform"
-
-alias cd-bff="cd $CSP_BFF_DIR"
-alias bff-code="cd-bff && vsc"
-alias bff-dev="cd-bff && yarn dev"
-
-alias cd-csp="cd $CSP_WEB_DIR"
-alias csp-code="cd-csp && vsc"
-alias csp-dev="cd-csp && yarn dev"
-
-alias cd-plat="cd $WEB_PLAT_DIR"
-alias plat-code="cd-plat && vsc"
-
-alias infra-provisioning-dashboard="$HOME//Repos/sp-dashboard"
+# use `delta` by default to display diffs
+export BATDIFF_USE_DELTA=true
 
 #alias capScrn="node $HOME/Repositories/Magpul-m2/scripts/visual-testing.js"
 #alias ohmyzsh="code ~/.oh-my-zsh"
@@ -169,3 +154,6 @@ alias infra-provisioning-dashboard="$HOME//Repos/sp-dashboard"
 # . /usr/local/etc/profile.d/z.sh
 export PATH="/usr/local/opt/postgresql@11/bin:$PATH"
 source $HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+source <(fzf --zsh)
+eval "$(zoxide init zsh --cmd cd)"
