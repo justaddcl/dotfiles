@@ -99,7 +99,7 @@ script_info() {
     cat <<EOF
 
 Name:           system-brew.sh
-Version:        v1.0.27
+Version:        v1.0.33
 Description:    Automate the installation of macOS
                 applications and packages using homebrew.
                 Fork of autobrew.sh by Mark Bradley
