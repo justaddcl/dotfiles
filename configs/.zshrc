@@ -77,8 +77,6 @@ plugins=(
   git
   jsontools
   sudo
-  zsh-autosuggestions
-  zsh-syntax-highlighting
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -113,11 +111,6 @@ alias zsh-reload="source $HOME/.zshrc"
 
 # VSCode aliases
 alias vscode-ext="open $HOME/.vscode/extensions"
-
-# Postgres aliases
-alias pg-start="pg_ctl -D /usr/local/var/postgresql@11 start"
-alias pg-stop="pg_ctl -D /usr/local/var/postgresql@11 stop"
-alias pg-restart="pg_ctl -D /usr/local/var/postgresql@11 restart"
 
 # use `delta` by default to display diffs
 export BATDIFF_USE_DELTA=true

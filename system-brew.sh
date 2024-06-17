@@ -281,6 +281,19 @@ install_mas() {
 install_configs() {
     raycast_dir="${HOME}/Documents/Raycast"
     term_message cb "\nSetting up configs..."
+
+    # enable zsh-autosuggestions
+    echo "source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh" >>${ZDOTDIR:-$HOME}/.zshrc
+
+    # enable zsh-syntax-highlighting
+    echo "source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >>${ZDOTDIR:-$HOME}/.zshrc
+
+    # set up fzf key bindings and fuzzy completion
+    echo "source <(fzf --zsh)" >>${ZDOTDIR:-$HOME}/.zshrc
+
+    # set up zoxide to replace default "cd" command
+    echo "eval "$(zoxide init zsh --cmd cd)"" >>${ZDOTDIR:-$HOME}/.zshrc
+
     local response
     read -r -p "There may already be configs in ${HOME}/Library/Preferences/, ${HOME}/.zshrc, and in ${raycast_dir} and continuing may overwrite those files. Do you want to continue? (y/n) " response
     if [[ ${response,,} =~ ^(y|yes)$ ]]; then
@@ -298,7 +311,7 @@ install_configs() {
         if [ ! -d "${raycast_dir}" ]; then
             mkdir "${raycast_dir}"
         fi
-        curl -o ${raycast_dir}/2024-06-06.rayconfig 'https://raw.githubusercontent.com/justaddcl/dotfiles/main/configs/2024-06-06.rayconfig'
+        curl -o ${raycast_dir}/2024-06-06.rayconfig 'https://raw.githubusercontent.com/justaddcl/dotfiles/main/configs/2024-06-06.rayconfig' --create-dirs
         task_done "Downloaded Raycast config"
         installed_list+=("Raycase config")
     else
@@ -480,6 +493,8 @@ formulae_list=(
     unzip
     wget
     yarn
+    zsh-autosuggestions
+    zsh-syntax-highlighting
     zoxide
 )
 
