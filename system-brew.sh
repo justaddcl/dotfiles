@@ -227,6 +227,18 @@ brew_cleanup() {
     fi
 }
 
+install_nvm() {
+    if ! command "-v nvm" >/dev/null 2>&1; then
+        task_start "Installing nvm..."
+        sh -c "$(curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash)"
+        task_done "nvm installed.\n"
+        success_list+=('nvm')
+    else
+        task_start "nvm already installed\n"
+        already_installed_list+=('nvm')
+    fi
+}
+
 install_zsh() {
     if ! which "zsh" >/dev/null 2>&1; then
         task_start "Installing ZSH..."
@@ -485,7 +497,6 @@ formulae_list=(
     mas
     neovim
     node
-    nvm
     prettier
     ripgrep
     tmux
@@ -549,6 +560,7 @@ main() {
     install_homebrew
     brew_packages
     brew_cleanup
+    install_nvm
     install_mas
     install_zsh
     install_configs
