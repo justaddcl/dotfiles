@@ -1,0 +1,134 @@
+name "Dracula"
+
+base {
+    appearance "dark"
+    background #282A36
+    separator #343746
+    text #ffffff
+}
+
+actionBar {
+    separator #282A36
+
+    button {
+        background #44475A
+        hotkey #A4FFFF
+        text #F8F8F2
+    }
+}
+
+asyncProgressBar {
+    border #6272A4
+    progress #FF79C6
+    itemProgress #FF92DF
+}
+
+breadcrumbs {
+    color1 #282A36
+    color2 #282A36
+    color3 #282A36
+    separator #6272A4
+    text #6272A4
+}
+
+files {
+    background {
+        alternate #21222C
+        current #3d3f4f
+        currentSelected #6272A4
+        selected #44475A
+    }
+
+    dragDropSelection {
+        color #bababa
+        width 1
+    }
+
+    text {
+        current #F8F8F2
+        currentSelected #ffffff
+        hidden #6272A4
+        matched #FF92DF
+        selected #ffffff
+
+        highlighting1 #8be9fd
+        highlighting2 #50fa7b
+        highlighting3 #ff79c6
+        highlighting4 #bca1f6
+    }
+}
+
+searchBar {
+    query {
+        border #6272A4
+        placeholder #F8F8F2
+    }
+
+    results {
+        highlighting #ffffff
+        selection #6272A4
+        subtitle #F8F8F2
+    }
+
+    rowSeparator {
+        color #343746
+        show true
+    }
+}
+
+statusBar {
+    background #191A21
+    border #6272A4
+    text #6272A4
+    quickSelectNoResultsHighlighting #FF5555
+}
+
+tableHeader {
+    separator #282A36
+    text #ffffff
+
+    pressed {
+        background #282A36
+    }
+}
+
+tabs {
+    active {
+        text #F8F8F2
+    }
+
+    inactive {
+        background #21222C
+        text #6272A4
+    }
+}
+
+terminal {
+    caret {
+        background #6272A4
+        text #ffffff
+    }
+}
+
+textEditor {
+    error #FF5555
+    warning #FFB86C
+    keyword #BD93F9
+    comment #6272A4
+    identifier #8BE9FD
+
+    literal {
+        string #F1FA8C
+        number #BD93F9
+        color #6897bb
+    }
+
+    gutter {
+        background #44475A
+        text #6272A4
+    }
+}
+
+titleBar {
+    text #ffffff
+}
