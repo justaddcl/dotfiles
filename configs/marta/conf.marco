@@ -1,0 +1,65 @@
+!fileLocation "/Users/{user}/Library/Application Support/org.yanex.marta"
+
+behavior {
+    theme "Dracula"
+    
+    actions {
+        core.trash.confirm false
+    }
+    
+    table {
+        verticalPadding 4
+        
+        circularSelection true
+        
+        defaults {
+            columns "modified:143,extension:60,>size:80"
+            showHiddenFiles true
+        }
+    }
+}
+
+etty {
+    shell "/bin/zsh"
+    theme "Dracula"
+    useMainThemeColors false
+    
+    fonts {
+        normal [ "GeistMono Nerd Font" 13]
+    }
+}
+
+fonts {
+    actionBar [ "Fira Code" 12]
+    files [ "Fira Code" 12]
+    statusBar [ "Fira Code Light" 11]
+    preferences [ "Fira Code" 12]
+}
+
+keyBindings {
+    "Cmd+Down" "core.open"
+    "Cmd+Up" "core.go.up"
+    
+    "Cmd+Shift+N" "core.new.folder"
+    
+    "Cmd+Shift+C" "core.copy.inactive"
+    
+    "Cmd+Shift+M" "core.move.inactive"
+    
+    "Cmd+Shift+G" "core.select.group"
+    
+    "Return" "core.rename"
+}
+
+setup {
+    actionBar [
+        "core.open.with"
+        "core.copy.inactive"
+        "core.move.inactive"
+        "core.copy"        
+        "core.move"
+        "core.duplicate"
+        "core.select.group"
+        "core.new.folder"                
+    ]
+}
