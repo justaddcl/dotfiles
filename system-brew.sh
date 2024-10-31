@@ -516,6 +516,7 @@ cask_list=(
     arc
     authy
     brave-browser
+    clipy
     coconutbattery
     discord
     disk-inventory-x
