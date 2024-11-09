@@ -106,11 +106,16 @@ source $ZSH/oh-my-zsh.sh
 # aliases
 
 # ZSH configs aliases
-alias zsh-config="code $HOME/.zshrc"
+alias zshrc="$HOME/.zshrc"
+alias zsh-edit="code $HOME/.zshrc"
 alias zsh-reload="source $HOME/.zshrc"
 
 # VSCode aliases
 alias vscode-ext="open $HOME/.vscode/extensions"
+
+# Workflow aliases
+alias copy-pwd="echo $PWD | pbcopy"
+alias copy-branch-name="git branch --show-current | pbcopy"
 
 # use `delta` by default to display diffs
 export BATDIFF_USE_DELTA=true
@@ -118,35 +123,18 @@ export BATDIFF_USE_DELTA=true
 #alias capScrn="node $HOME/Repositories/Magpul-m2/scripts/visual-testing.js"
 #alias ohmyzsh="code ~/.oh-my-zsh"
 
-# Make sure .nvmrc files are honoured when you cd into a folder
-# export NVM_DIR=~/.nvm
-# source $(brew --prefix nvm)/nvm.sh
-# autoload -U add-zsh-hook
-# load-nvmrc() {
-#   local nvmrc_path
-#   nvmrc_path="$(nvm_find_nvmrc)"
+# enable zsh-autosuggestions
+source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
-#   if [ -n "$nvmrc_path" ]; then
-#     local nvmrc_node_version
-#     nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
+# enable zsh-syntax-highlighting
+source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-#     if [ "$nvmrc_node_version" = "N/A" ]; then
-#       nvm install
-#     elif [ "$nvmrc_node_version" != "$(nvm version)" ]; then
-#       nvm use
-#     fi
-#   elif [ -n "$(PWD=$OLDPWD nvm_find_nvmrc)" ] && [ "$(nvm version)" != "$(nvm version default)" ]; then
-#     echo "Reverting to nvm default version"
-#     nvm use default
-#   fi
-# }
-# add-zsh-hook chpwd load-nvmrc
-# load-nvmrc
-
-# include z
-# . /usr/local/etc/profile.d/z.sh
-export PATH="/usr/local/opt/postgresql@11/bin:$PATH"
-source $HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
+# set up fzf key bindings and fuzzy completion
 source <(fzf --zsh)
+
+# set up zoxide to replace default "cd" command
 eval "$(zoxide init zsh --cmd cd)"
+
+PATH=~/.console-ninja/.bin:$PATH
+export PATH=$PATH:$HOME/.maestro/bin
+
