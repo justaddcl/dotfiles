@@ -77,7 +77,9 @@
 	  "fliqlo"
 	  "flux"
 	  "font-inconsolata-for-powerline"
+	  "linear-linear"
 	  "marta"
+	  "nordvpn"
 	  "notion"
 	  "numi"
 	  "paragon-ntfs"
@@ -127,6 +129,32 @@
       system.defaults = {
 	## Dock settings
         dock.autohide = true;
+	# magnificiation
+	dock.magnification = false;
+	dock.tilesize = 32;
+
+	dock.persistent-apps = [
+	  "/Applications/Notion.app"
+	  "/System/Applications/Calendar.app"
+	  "/System/Applications/Music.app"
+	  "${pkgs.spotify}/Applications/Spotify.app"
+	  "${pkgs.arc-browser}/Applications/Arc.app"
+	  "/Applications/Steam.app"
+	  "${pkgs.vscode}/Applications/Visual Studio Code.app"
+	  "/Applications/Linear.app"
+	  "${pkgs.warp-terminal}/Applications/Warp.app"
+	  "/Applications/Docker.app"
+	  "/Applications/Figma.app"
+	  "/System/Applications/Messages.app"
+	  "/Applications/WhatsApp.app"
+	  "/Applications/Discord.app"
+	  "/Applications/NordVPN.app"
+	  "/System/Applications/System Settings.app"
+	];
+	dock.persistent-others = [
+	  "~/Applications"
+	  "~/Users/yuji/Downloads"
+	];
 
 	## Mouse and trackpad settings
 	# disable "natural" scrolling direction
