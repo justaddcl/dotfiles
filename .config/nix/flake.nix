@@ -178,6 +178,10 @@
 	menuExtraClock.ShowSeconds = true;
 	menuExtraClock.ShowDate = 2;
 	menuExtraClock.ShowDayOfWeek = false;
+
+	loginwindow.GuestEnabled = false;
+
+	NSGlobalDomain.AppleInterfaceStyle = "Dark";
       };
 
       # Auto upgrade nix package and the daemon service.
