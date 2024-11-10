@@ -50,7 +50,6 @@
 	  pkgs.typescript
 	  pkgs.unzip
 	  pkgs.vscode
-	  pkgs.warp-terminal
 	  pkgs.wget
 	  pkgs.zsh-autosuggestions
 	  pkgs.zsh-syntax-highlighting
@@ -88,6 +87,7 @@
 	  "signal"
 	  "steam"
 	  "webull"
+	  "warp"
 	  "whatsapp"
 	];
 	masApps = {
@@ -142,7 +142,7 @@
 	  "/Applications/Steam.app"
 	  "${pkgs.vscode}/Applications/Visual Studio Code.app"
 	  "/Applications/Linear.app"
-	  "${pkgs.warp-terminal}/Applications/Warp.app"
+	  "/Applications/Warp.app"
 	  "/Applications/Docker.app"
 	  "/Applications/Figma.app"
 	  "/System/Applications/Messages.app"
