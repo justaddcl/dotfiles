@@ -38,7 +38,7 @@
 	  pkgs.jq
 	  pkgs.mkalias
 	  pkgs.neovim
-	  pkgs.oh-my-zsh
+	  pkgs.oh-my-posh
 	  pkgs.postman
 	  pkgs.raycast
 	  pkgs.rectangle
