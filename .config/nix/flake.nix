@@ -66,6 +66,7 @@
 	casks = [
           "1password"
 	  "adobe-creative-cloud"
+	  "clipy"
 	  "discord"
 	  "disk-inventory-x"
 	  "docker"
