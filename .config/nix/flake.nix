@@ -34,7 +34,6 @@
 	  pkgs.git
 	  pkgs.hidden-bar
 	  pkgs.iina
-	  pkgs.itsycal
 	  pkgs.jq
 	  pkgs.mkalias
 	  pkgs.neovim
@@ -76,6 +75,7 @@
 	  "fliqlo"
 	  "flux"
 	  "font-inconsolata-for-powerline"
+	  "itsycal"
 	  "linear-linear"
 	  "marta"
 	  "nordvpn"
