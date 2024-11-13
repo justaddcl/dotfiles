@@ -2,7 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
   "version": 3,
   "final_space": true,
-  "console_title_template": "{{ .Shell }} in {{ .Folder }}",
+  "console_title_template": "{{ .PWD }}",
   "blocks": [
     {
       "type": "prompt",
@@ -67,7 +67,7 @@
         {
 	  "foreground_templates": [
 	    "{{if gt .Code 0}}p:terminal-red{{end}}",
-    	    "{{if eq .Code 0}}p:pistachio-green{{end}}"
+    	    "{{if eq .Code 0}}p:white-blue{{end}}"
 	  ],
 	  "background": "transparent",
           "style": "plain",
@@ -80,7 +80,7 @@
   "transient_prompt": {
     "foreground_templates": [
       "{{if gt .Code 0}}p:terminal-red{{end}}",
-      "{{if eq .Code 0}}p:pistachio-green{end}}"
+      "{{if eq .Code 0}}p:white-blue{end}}"
     ],
     "background": "transparent",
     "template": "❯ "
