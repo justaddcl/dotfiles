@@ -21,7 +21,7 @@
           "type": "git",
           "style": "plain",
           "foreground": "p:terminal-white",
-	  "template": "{{ .UpstreamIcon }}{{ if or (.Working.Changed) (.Staging.Changed) }}<p:terminal-yellow>{{ .HEAD }}*</>{{ else }}<p:light-sky-blue>{{ .HEAD }}</>{{ end }}<cyan>{{ if gt .Behind 0 }}⇣{{ end }}{{ if gt .Ahead 0 }}⇡{{ end }}</>",
+	  "template": "{{ .UpstreamIcon }}{{ if or (.Working.Changed) (.Staging.Changed) }}<p:terminal-yellow>{{ .HEAD }}*</>{{ else }}<p:terminal-green>{{ .HEAD }}</>{{ end }}<cyan>{{ if gt .Behind 0 }}⇣{{ end }}{{ if gt .Ahead 0 }}⇡{{ end }}</>",
           "properties": {
             "fetch_status": true,
 	    "fetch_upstream_icon": true,
