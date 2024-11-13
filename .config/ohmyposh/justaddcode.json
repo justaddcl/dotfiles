@@ -9,35 +9,24 @@
       "alignment": "left",
       "segments": [
         {
-          "type": "text",
-          "style": "plain",
-          "background": "transparent",
-          "foreground": "p:terminal-blue",
-          "template": "\u279c "
-        },
-        {
           "type": "path",
           "style": "plain",
           "foreground": "p:terminal-magenta",
           "properties": {
             "style": "full"
           },
-          "template": "<b>{{ .Path }}</b> <p:light-sky-blue>\u26a1</>"
+          "template": "<b>{{ .Path }}</b> "
         },
         {
           "type": "git",
           "style": "plain",
-          "foreground": "p:light-sky-blue",
-          "foreground_templates": [
-            "{{ if or (.Working.Changed) (.Staging.Changed) }}p:terminal-red{{ end }}",
-            "{{ if and (gt .Ahead 0) (gt .Behind 0)}}p:light-sky-blue {{ end }}",
-            "{{ if gt .Ahead 0 }}p:terminal-blue{{ end }}",
-            "{{ if gt .Behind 0 }}p:celeste-blue{{ end }}"
-          ],
-          "template": "({{ .HEAD}})",
+          "foreground": "p:terminal-white",
+	  "template": "{{ .UpstreamIcon }}{{ if or (.Working.Changed) (.Staging.Changed) }}<p:terminal-yellow>{{ .HEAD }}*</>{{ else }}<p:light-sky-blue>{{ .HEAD }}</>{{ end }}<cyan>{{ if gt .Behind 0 }}⇣{{ end }}{{ if gt .Ahead 0 }}⇡{{ end }}</>",
           "properties": {
             "fetch_status": true,
-            "branch_icon": "\ue725 "
+	    "fetch_upstream_icon": true,
+            "branch_icon": "\ue725 ",
+	    "commit_icon": "@"
           }
         },
         {
@@ -53,50 +42,20 @@
       "type": "prompt",
       "overflow": "hide",
       "segments": [
+	{
+	  "type": "executiontime",
+	  "style": "plain",
+	  "foreground": "p:terminal-yellow",
+	  "background": "transparent",
+	  "template": "{{ .FormattedMs }}"
+	},
         {
-          "type": "node",
-          "style": "plain",
-          "foreground": "p:pistachio-green",
-          "template": "\ue718 {{ .Full }} "
-        },
-        {
-          "type": "php",
-          "style": "plain",
-          "foreground": "p:terminal-blue",
-          "template": "\ue73d {{ .Full }} "
-        },
-        {
-          "type": "python",
-          "style": "plain",
-          "foreground": "p:terminal-yellow",
-          "template": "\uE235 {{ .Full }}"
-        },
-        {
-          "type": "julia",
-          "style": "plain",
-          "foreground": "p:terminal-magenta",
-          "template": "\uE624 {{ .Full }}"
-        },
-        {
-          "type": "ruby",
-          "style": "plain",
-          "foreground": "p:terminal-red",
-          "template": "\uE791 {{ .Full}}"
-        },
-        {
-          "type": "go",
-          "style": "plain",
-          "foreground": "p:light-sky-blue",
-          "template": "\uFCD1 {{ .Full}}"
-        },
-        {
-          "type": "command",
+          "type": "time",
           "style": "plain",
           "foreground": "p:white-blue",
-          "properties": {
-            "command": "git log --pretty=format:%cr -1 || date +%H:%M:%S",
-            "shell": "bash"
-          }
+	  "properties": {
+	    "time_format": "15:04:05"
+	  }
         }
       ]
     },
@@ -106,20 +65,27 @@
       "newline": true,
       "segments": [
         {
-          "foreground": "p:pistachio-green",
+	  "foreground_templates": [
+	    "{{if gt .Code 0}}p:terminal-red{{end}}",
+    	    "{{if eq .Code 0}}p:pistachio-green{{end}}"
+	  ],
+	  "background": "transparent",
           "style": "plain",
-          "template": "\u25b6",
+          "template": "❯ ",
           "type": "text"
         }
       ]
     }
   ],
   "transient_prompt": {
-    "background": "p:t-background",
-    "foreground": "p:terminal-blue",
-    "template": "\u279c "
+    "foreground_templates": [
+      "{{if gt .Code 0}}p:terminal-red{{end}}",
+      "{{if eq .Code 0}}p:pistachio-green{end}}"
+    ],
+    "background": "transparent",
+    "template": "❯ "
   },
-  "terminal_background": "p:t-background",
+  "terminal_background": "transparent",
   "palette": {
     "main-bg": "#24283b",
     "terminal-red": "#f7768e",
