@@ -55,7 +55,6 @@
 	  pkgs.zoxide
         ];
 
-
       homebrew = {
         enable = true;
 	brews = [
@@ -209,7 +208,7 @@
   in
   {
     # Build darwin flake using:
-    # $ darwin-rebuild build --flake .#simple
+    # $ darwin-rebuild build --flake .#studio
     darwinConfigurations."studio" = nix-darwin.lib.darwinSystem {
       modules = [ 
       configuration 
