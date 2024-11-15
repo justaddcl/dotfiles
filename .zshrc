@@ -52,7 +52,7 @@ zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
 zstyle 'fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 
 if [ "$TERM_PROGRAM" != "Apple_Terminal" ]; then
-  eval "$(oh-my-posh init zsh --config $HOME/.config/ohmyposh/justaddcode.json)"
+	eval "$(oh-my-posh init zsh --config $HOME/.config/ohmyposh/justaddcode.json)"
 fi
 
 export ZSH="$HOME/.oh-my-zsh"
