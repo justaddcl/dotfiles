@@ -170,6 +170,60 @@ alias vscode-ext="open $HOME/.vscode/extensions"
 alias copy-pwd="echo $PWD | pbcopy"
 alias copy-branch-name="git branch --show-current | pbcopy"
 
+#Remove existing gs alias
+unalias gs 2>/dev/null
+# (g)it (s)witch
+gs() {
+	local branches branch
+	branches=$(git branch -vv) || return 1
+	branch=$(echo "$branches" | fzf +m | awk '{print $1}' | sed "s/.* //")
+
+	if [[ -z "$branch" ]]; then
+		echo "No target branch selected"
+		return 1
+	fi
+
+	git switch "$branch"
+}
+
+#Remove existing gs alias
+unalias gcp 2>/dev/null
+# (g)it (c)herry (p)ick
+gcp() {
+	local branches target_branch commits commit_hash
+
+	# Get commits
+	commits=$(git log --format="%h @ %ci (%ch): %s - %ce")
+
+	# Store current branch
+	local current_branch=$(git branch --show-current)
+
+	# Prompt for target branch name
+	echo -n "Branch to move commit to: "
+	branches=$(git branch -vv) && target_branch=$(echo "$branches" | fzf | awk '{print $1}' | sed "s/.* //")
+
+	# Validate branch name was provided
+	if [[ -z "$target_branch" ]]; then
+		echo "No branch name provided"
+		return 1
+	fi
+
+	# Prompt for commit to cherry-pick
+	commit_hash=$(echo "$commits" | fzf)
+
+	# Switch to target branch and cherry-pick commit
+	if git switch "$target_branch"; then
+		git cherry-pick $(echo "$commit_hash" | awk '{print $1}') || {
+			echo "Cherry-pick failed, switching back to $current_branch"
+			git switch "$current_branch"
+			return 1
+		}
+	else
+		echo "Failed to switch to branch: $target_branch"
+		return 1
+	fi
+}
+
 # use `delta` by default to display diffs
 export BATDIFF_USE_DELTA=true
 
