@@ -61,6 +61,7 @@
 	  "git-delta"
 	  "mas"
 	  "node"
+	  "pnpm"
 	];
 	casks = [
           "1password"
