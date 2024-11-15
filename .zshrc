@@ -1,7 +1,60 @@
+eval "$(/opt/homebrew/bin/brew shellenv)"
+
 # If you come from bash you might have to change your $PATH.
 export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
+# Set the directory we want to store zinit and plugins
+ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
+
+#download Zinit, if it's not there already
+[ ! -d $ZINIT_HOME ] && mkdir -p "$(dirname $ZINIT_HOME)"
+[ ! -d $ZINIT_HOME/.git ] && git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
+source "${ZINIT_HOME}/zinit.zsh"
+
+# Zsh plugins
+zinit light zsh-users/zsh-syntax-highlighting
+zinit light zsh-users/zsh-completions
+zinit light zsh-users/zsh-autosuggestions
+
+# Snippets
+zinit snippet OMZP::command-not-found
+zinit snippet OMZP::git
+zinit snippet OMZP::jsontools
+zinit snippet OMZP::sudo
+
+# Load completions
+autoload -U compinit && compinit
+
+zinit cdreplay -q
+
+# Keybindings
+bindkey '^p' history-search-backward
+bindkey '^n' history-search-forward
+
+# History
+HISTSIZE=5000
+HISTFILE=~/.zsh_history
+SAVEHIST=$HISTSIZE
+HISTDUP=erase
+setopt appendhistory
+setopt sharehistory
+setopt hist_ignore_space
+setopt hist_ignore_all_dups
+setopt hist_save_no_dups
+setopt hist_ignore_dups
+setopt hist_find_no_dups
+
+# Completion styling
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+zstyle ':completion:*' menu no
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
+zstyle 'fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
+
+if [ "$TERM_PROGRAM" != "Apple_Terminal" ]; then
+	eval "$(oh-my-posh init zsh --config $HOME/.config/ohmyposh/justaddcode.json)"
+fi
+
 export ZSH="$HOME/.oh-my-zsh"
 
 export NVM_DIR="$HOME/.nvm"
@@ -12,7 +65,7 @@ export NVM_DIR="$HOME/.nvm"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="cerulean"
+# ZSH_THEME="cerulean"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -73,13 +126,13 @@ ZSH_THEME="cerulean"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 
-plugins=(
-  git
-  jsontools
-  sudo
-)
+# plugins=(
+#   git
+#   jsontools
+#   sudo
+# )
 
-source $ZSH/oh-my-zsh.sh
+# source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
@@ -106,11 +159,70 @@ source $ZSH/oh-my-zsh.sh
 # aliases
 
 # ZSH configs aliases
-alias zsh-config="code $HOME/.zshrc"
+alias zshrc="$HOME/.zshrc"
+alias zsh-edit="code $HOME/.zshrc"
 alias zsh-reload="source $HOME/.zshrc"
 
 # VSCode aliases
 alias vscode-ext="open $HOME/.vscode/extensions"
+
+# Workflow aliases
+alias copy-pwd="echo $PWD | pbcopy"
+alias copy-branch-name="git branch --show-current | pbcopy"
+
+#Remove existing gs alias
+unalias gs 2>/dev/null
+# (g)it (s)witch
+gs() {
+	local branches branch
+	branches=$(git branch -vv) || return 1
+	branch=$(echo "$branches" | fzf +m | awk '{print $1}' | sed "s/.* //")
+
+	if [[ -z "$branch" ]]; then
+		echo "No target branch selected"
+		return 1
+	fi
+
+	git switch "$branch"
+}
+
+#Remove existing gs alias
+unalias gcp 2>/dev/null
+# (g)it (c)herry (p)ick
+gcp() {
+	local branches target_branch commits commit_hash
+
+	# Get commits
+	commits=$(git log --format="%h @ %ci (%ch): %s - %ce")
+
+	# Store current branch
+	local current_branch=$(git branch --show-current)
+
+	# Prompt for target branch name
+	echo -n "Branch to move commit to: "
+	branches=$(git branch -vv) && target_branch=$(echo "$branches" | fzf | awk '{print $1}' | sed "s/.* //")
+
+	# Validate branch name was provided
+	if [[ -z "$target_branch" ]]; then
+		echo "No branch name provided"
+		return 1
+	fi
+
+	# Prompt for commit to cherry-pick
+	commit_hash=$(echo "$commits" | fzf)
+
+	# Switch to target branch and cherry-pick commit
+	if git switch "$target_branch"; then
+		git cherry-pick $(echo "$commit_hash" | awk '{print $1}') || {
+			echo "Cherry-pick failed, switching back to $current_branch"
+			git switch "$current_branch"
+			return 1
+		}
+	else
+		echo "Failed to switch to branch: $target_branch"
+		return 1
+	fi
+}
 
 # use `delta` by default to display diffs
 export BATDIFF_USE_DELTA=true
@@ -118,35 +230,17 @@ export BATDIFF_USE_DELTA=true
 #alias capScrn="node $HOME/Repositories/Magpul-m2/scripts/visual-testing.js"
 #alias ohmyzsh="code ~/.oh-my-zsh"
 
-# Make sure .nvmrc files are honoured when you cd into a folder
-# export NVM_DIR=~/.nvm
-# source $(brew --prefix nvm)/nvm.sh
-# autoload -U add-zsh-hook
-# load-nvmrc() {
-#   local nvmrc_path
-#   nvmrc_path="$(nvm_find_nvmrc)"
+# enable zsh-autosuggestions
+# source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
-#   if [ -n "$nvmrc_path" ]; then
-#     local nvmrc_node_version
-#     nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
+# enable zsh-syntax-highlighting
+# source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-#     if [ "$nvmrc_node_version" = "N/A" ]; then
-#       nvm install
-#     elif [ "$nvmrc_node_version" != "$(nvm version)" ]; then
-#       nvm use
-#     fi
-#   elif [ -n "$(PWD=$OLDPWD nvm_find_nvmrc)" ] && [ "$(nvm version)" != "$(nvm version default)" ]; then
-#     echo "Reverting to nvm default version"
-#     nvm use default
-#   fi
-# }
-# add-zsh-hook chpwd load-nvmrc
-# load-nvmrc
-
-# include z
-# . /usr/local/etc/profile.d/z.sh
-export PATH="/usr/local/opt/postgresql@11/bin:$PATH"
-source $HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
+# set up fzf key bindings and fuzzy completion
 source <(fzf --zsh)
+
+# set up zoxide to replace default "cd" command
 eval "$(zoxide init zsh --cmd cd)"
+
+PATH=~/.console-ninja/.bin:$PATH
+export PATH=$PATH:$HOME/.maestro/bin

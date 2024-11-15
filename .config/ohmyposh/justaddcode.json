@@ -1,0 +1,107 @@
+{
+  "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
+  "version": 3,
+  "final_space": true,
+  "console_title_template": "{{ .PWD }}",
+  "blocks": [
+    {
+      "type": "prompt",
+      "alignment": "left",
+      "segments": [
+        {
+          "type": "path",
+          "style": "plain",
+          "foreground": "p:terminal-magenta",
+          "properties": {
+            "style": "full"
+          },
+          "template": "<b>{{ .Path }}</b> "
+        },
+        {
+          "type": "git",
+          "style": "plain",
+          "foreground": "p:terminal-white",
+	  "template": "{{ .UpstreamIcon }}{{ if or (.Working.Changed) (.Staging.Changed) }}<p:terminal-yellow>{{ .HEAD }}*</>{{ else }}<p:terminal-green>{{ .HEAD }}</>{{ end }}<cyan>{{ if gt .Behind 0 }}⇣{{ end }}{{ if gt .Ahead 0 }}⇡{{ end }}</>",
+          "properties": {
+            "fetch_status": true,
+	    "fetch_upstream_icon": true,
+            "branch_icon": "\ue725 ",
+	    "commit_icon": "@"
+          }
+        },
+        {
+          "type": "status",
+          "style": "plain",
+          "foreground": "p:terminal-red",
+          "template": " \uf00d"
+        }
+      ]
+    },
+    {
+      "alignment": "right",
+      "type": "prompt",
+      "overflow": "hide",
+      "segments": [
+	{
+	  "type": "executiontime",
+	  "style": "plain",
+	  "foreground": "p:terminal-yellow",
+	  "background": "transparent",
+	  "template": "{{ .FormattedMs }}"
+	},
+        {
+          "type": "time",
+          "style": "plain",
+          "foreground": "p:white-blue",
+	  "properties": {
+	    "time_format": "15:04:05"
+	  }
+        }
+      ]
+    },
+    {
+      "alignment": "left",
+      "type": "prompt",
+      "newline": true,
+      "segments": [
+        {
+	  "foreground_templates": [
+	    "{{if gt .Code 0}}p:terminal-red{{end}}",
+    	    "{{if eq .Code 0}}p:white-blue{{end}}"
+	  ],
+	  "background": "transparent",
+          "style": "plain",
+          "template": "❯ ",
+          "type": "text"
+        }
+      ]
+    }
+  ],
+  "transient_prompt": {
+    "foreground_templates": [
+      "{{if gt .Code 0}}p:terminal-red{{end}}",
+      "{{if eq .Code 0}}p:white-blue{end}}"
+    ],
+    "background": "transparent",
+    "template": "❯ "
+  },
+  "terminal_background": "transparent",
+  "palette": {
+    "main-bg": "#24283b",
+    "terminal-red": "#f7768e",
+    "pistachio-green": "#9ece6a",
+    "terminal-green": "#73daca",
+    "terminal-yellow": "#e0af68",
+    "terminal-blue": "#7aa2f7",
+    "celeste-blue": "#b4f9f8",
+    "light-sky-blue": "#7dcfff",
+    "terminal-white": "#c0caf5",
+    "white-blue": "#a9b1d6",
+    "blue-bell": "#9aa5ce",
+    "pastal-grey": "#cfc9c2",
+    "terminal-magenta": "#bb9af7",
+    "blue-black": "#565f89",
+    "terminal-black": "#414868",
+    "t-background": "p:main-bg"
+  }
+}
