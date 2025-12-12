@@ -27,6 +27,8 @@
 	  pkgs.bat-extras.prettybat
 	  pkgs.docker
 	  pkgs.drawio
+		pkgs.fd
+		pkgs.ffmpeg
 	  pkgs.fira-code
 	  pkgs.fzf
 	  pkgs.gifski
@@ -34,13 +36,18 @@
 	  pkgs.git
 	  pkgs.hidden-bar
 	  pkgs.iina
+		pkgs.imagemagick
 	  pkgs.jq
+		pkgs.lmstudio
 	  pkgs.mkalias
 	  pkgs.neovim
+    pkgs.obsidian
 	  pkgs.oh-my-posh
+		pkgs.poppler
 	  pkgs.postman
 	  pkgs.raycast
 	  pkgs.rectangle
+		pkgs.resvg
 	  pkgs.ripgrep
 	  pkgs.spotify
 	  pkgs.stow
@@ -50,6 +57,7 @@
 	  pkgs.unzip
 	  pkgs.vscode
 	  pkgs.wget
+    pkgs.yazi
 	  pkgs.zsh-autosuggestions
 	  pkgs.zsh-syntax-highlighting
 	  pkgs.zoxide
@@ -65,19 +73,21 @@
 	  "mas"
 	  "node"
 	  "pnpm"
-	  "ripgrep"
+		"sevenzip"
 	  "tmux"
 	];
 	casks = [
-          "1password"
+    "1password"
 	  "adobe-creative-cloud"
 	  "clipy"
+		"cursor"
 	  "discord"
 	  "disk-inventory-x"
 	  "docker"
 	  "figma"
 	  "font-fira-code"
 	  "font-fira-mono-for-powerline"
+		"font-symbols-only-nerd-font"
 	  "fliqlo"
 	  "flux"
 	  "font-inconsolata-for-powerline"
@@ -85,7 +95,6 @@
 	  "itsycal"
 	  "linear-linear"
 	  "logi-options+"
-	  "marta"
 	  "nordvpn"
 	  "notion"
 	  "numi"
@@ -142,12 +151,13 @@
 	dock.tilesize = 32;
 
 	dock.persistent-apps = [
-	  "/Applications/Notion.app"
+	  "${pkgs.obsidian}/Applications/Obsidian.app"
 	  "/System/Applications/Calendar.app"
 	  "/System/Applications/Music.app"
 	  "${pkgs.spotify}/Applications/Spotify.app"
 	  "${pkgs.arc-browser}/Applications/Arc.app"
 	  "/Applications/Steam.app"
+    "/Applications/Cursor.app/"
 	  "${pkgs.vscode}/Applications/Visual Studio Code.app"
 	  "/Applications/Linear.app"
 	  "/Applications/Warp.app"
