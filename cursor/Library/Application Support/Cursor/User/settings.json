@@ -1,24 +1,31 @@
 {
-  "html.format.indentInnerHtml": true,
-  "workbench.editor.showTabs": "multiple",
-  "emmet.showSuggestionsAsSnippets": true,
+  "window.commandCenter": true,
+  "terminal.integrated.env.osx": {},
+  "workbench.sideBar.location": "right",
+  "workbench.colorTheme": "poimandres-storm",
+
+  "breadcrumbs.enabled": true,
+
+  // "emmet.showSuggestionsAsSnippets": true,
   "emmet.includeLanguages": {
     "javascript": "javascriptreact",
     "TypeScript React": "typescriptreact",
     "HTML": "html"
   },
-  "workbench.panel.defaultLocation": "right",
-  "breadcrumbs.enabled": true,
+
+  // settings from VS Code
+  "editor.fontFamily": "Fira Code, Menlo, Monaco, 'Courier New', monospace",
   "editor.tabSize": 2,
-  "terminal.integrated.fontFamily": "Fira Mono For Powerline",
-  "workbench.colorTheme": "Tokyo Night Storm",
-  "window.title": "${dirty} ${activeEditorMedium}${separator}${rootName}",
   "editor.formatOnSave": true,
+
+  // language options
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
   "[html]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
+    // "editor.formatOnSave": false
   },
   "[javascriptreact]": {
     "editor.formatOnSave": false
@@ -41,9 +48,14 @@
       "source.organizeImports": "never"
     }
   },
+
   "javascript.updateImportsOnFileMove.enabled": "always",
+
+  // Rename/refactor symbols without getting alias `oldName as newName`
   "javascript.preferences.useAliasesForRenames": false,
   "typescript.preferences.useAliasesForRenames": false,
+
+  // tell the ESLint plugin to run on save
   "editor.codeActionsOnSave": {
     "source.fixAll": "explicit"
   },
@@ -55,15 +67,40 @@
     "typescript",
     "typescriptreact"
   ],
-  "workbench.tree.indent": 15,
-  "workbench.tree.renderIndentGuides": "always",
-  "editor.multiCursorModifier": "alt",
-  "editor.tabCompletion": "on",
-  "files.associations": {
-    "*.m2urlrc": "json"
-  },
   "editor.fontLigatures": "enable",
-  "debug.javascript.autoAttachFilter": "onlyWithFlag",
+  "editor.snippetSuggestions": "inline",
+  "editor.bracketPairColorization.enabled": true,
+  "editor.guides.bracketPairs": true,
+  "editor.linkedEditing": true,
+  "editor.stickyScroll.enabled": true,
+  "editor.occurrencesHighlight": "multiFile",
+  "editor.lineNumbers": "relative",
+  "editor.minimap.enabled": false,
+  "editor.cursorSurroundingLinesStyle": "all",
+
+  "workbench.editor.splitInGroupLayout": "vertical",
+  "workbench.activityBar.location": "top",
+  // "workbench.colorCustomizations": {
+  //   "statusBar.background": "#005f5f",
+  //   "statusBar.noFolderBackground": "#005f5f",
+  //   "statusBar.debuggingBackground": "#005f5f",
+  //   "statusBar.foreground": "#ffffff",
+  //   "statusBar.debuggingForeground": "#ffffff"
+  // },
+  "workbench.editor.customLabels.patterns": {
+    "*/src/**/index.ts": "${dirname}/${filename}.${extname}",
+    "*/src/**/spec.tsx": "${dirname}/${filename}.${extname} 🧪",
+    "*/src/**/spec.ts": "${dirname}/${filename}.${extname} 🧪",
+    "*/src/**/index.tsx": "${dirname}/${filename}.${extname} 🏗️"
+  },
+
+  "diffEditor.diffAlgorithm": "advanced",
+
+  "git.mergeEditor": true,
+
+  "gitlens.rebaseEditor.ordering": "asc",
+  "githubPullRequests.pullBranch": "never",
+
   "cSpell.userWords": [
     "aics",
     "airplanemode",
@@ -95,6 +132,7 @@
     "Fullstory",
     "gstatic",
     "headshot",
+    "hlsearch",
     "htmlescape",
     "Hygen",
     "iban",
@@ -119,7 +157,6 @@
     "onboarded",
     "organisation",
     "organisations",
-    "ORPC",
     "phpdoc",
     "plusplus",
     "prioritise",
@@ -143,11 +180,12 @@
     "testid",
     "textnodes",
     "Teya",
-    "treeify",
     "TRPC",
     "typehint",
     "unarchived",
+    "Unmute",
     "unsets",
+    "visualstar",
     "wireframe",
     "xxxl",
     "yneo",
@@ -155,118 +193,21 @@
     "yujinelson",
     "zustand"
   ],
-  "window.openFilesInNewWindow": "on",
-  "files.defaultLanguage": "`${activeEditorLanguage} `",
-  "explorer.compactFolders": false,
-  "editor.snippetSuggestions": "bottom",
-  "editor.suggestSelection": "first",
-  "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
-  "editor.suggest.showStatusBar": true,
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "terminal.integrated.fontWeightBold": "bold",
-  "editor.fontFamily": "Fira Code, Menlo, Monaco, 'Courier New', monospace",
-  "terminal.integrated.lineHeight": 1.2,
-  "terminal.integrated.fontSize": 13,
+
+  // ** spotify extension settings ** //
   "spotify.showMuteUnmuteVolumeButton": false,
   "spotify.showToggleRepeatingButton": true,
   "spotify.trackInfoFormat": "artistName - trackName - albumName",
   "spotify.showLyricsButton": false,
-  "editor.bracketPairColorization.enabled": true,
-  "editor.guides.bracketPairs": true,
-  "editor.suggest.preview": true,
-  "editor.accessibilitySupport": "off",
-  "terminal.integrated.defaultProfile.osx": "zsh",
-  "editor.gotoLocation.multipleTypeDefinitions": "gotoAndPeek",
-  "editor.gotoLocation.multipleDefinitions": "gotoAndPeek",
-  "typescript.updateImportsOnFileMove.enabled": "always",
-  "editor.linkedEditing": true,
-  "editor.guides.indentation": false,
-  "gitlens.views.stashes.files.layout": "tree",
-  "git.experimental.mergeEditor": true,
-  "git.mergeEditor": true,
-  "terminal.integrated.shellIntegration.enabled": true,
-  "window.commandCenter": true,
-  "githubPullRequests.pullBranch": "never",
-  "workbench.experimental.settingsProfiles.enabled": true,
-  "gitlens.rebaseEditor.ordering": "asc",
-  "workbench.editorAssociations": {
-    "git-rebase-todo": "gitlens.rebase"
-  },
-  "editor.stickyScroll.enabled": true,
-  "auto-close-tag.activationOnLanguage": ["xml", "mdx"],
-  "[plaintext]": {
-    "editor.unicodeHighlight.ambiguousCharacters": false,
-    "editor.unicodeHighlight.invisibleCharacters": false
-  },
-  "diffEditor.diffAlgorithm": "advanced",
-  "[dotenv]": {
-    "editor.defaultFormatter": "foxundermoon.shell-format"
-  },
-  "totalTypeScript.hiddenTips": [
-    "type-alias-declaration",
-    "union-type",
-    "null-keyword",
-    "type-alias-with-generics",
-    "ts-object-type",
-    "basic-types",
-    "any-type",
-    "optional-object-property",
-    "literal-type",
-    "passing-generics-to-types",
-    "non-null-expression",
-    "typing-function-parameters",
-    "pick-utility-type",
-    "array-type",
-    "variable-type-annotation",
-    "generic-slots-in-functions",
-    "mapped-type",
-    "omit-utility-type",
-    "nonnullable-utility-type",
-    "keyof",
-    "function-return-type",
-    "undefined-keyword",
-    "record-utility-type",
-    "typeof",
-    "as-assertion",
-    "tuple-type",
-    "as-const",
-    "partial-utility-type",
-    "never-keyword",
-    "required-utility-type",
-    "type-predicate",
-    "type-alias-with-multiple-generics",
-    "exclude-utility-type",
-    "as-const-on-object"
-  ],
-  "workbench.editor.splitInGroupLayout": "vertical",
-  "cSpell.ignoreWords": ["Localised", "Serie", "Timeslice"],
-  "editor.occurrencesHighlight": "multiFile",
-  "dart.debugExternalPackageLibraries": true,
-  "dart.debugSdkLibraries": true,
-  "editor.lineNumbers": "relative",
-  "console-ninja.fontSize": 12,
-  "workbench.editor.customLabels.patterns": {
-    "*/src/**/page.tsx": "Page - ${dirname}",
-    "*/src/**/layout.tsx": "Layout - ${dirname}",
-    "*/src/**/spec.tsx": "${dirname}/${filename}.${extname}",
-    "*/src/**/stories.tsx": "${dirname}/${filename}.${extname}",
-    "*/src/**/spec.ts": "${dirname}/${filename}.${extname}",
-    "*/src/**/index.tsx": "${dirname}",
-    "*/src/**/index.ts": "${dirname}"
-  },
-  "todohighlight.keywords": [
-    {
-      "text": "NOTE:",
-      "color": "#172554",
-      "backgroundColor": "#7dd3fc"
-    },
-    {
-      "text": "HACK:",
-      "color": "#422006",
-      "backgroundColor": "#fef9c3"
-    }
-  ],
+
+  // ** vim settings ** //
+
+  // leader key
   "vim.leader": "<space>",
+  "vim.hlsearch": true,
+  "vim.visualstar": true,
+
+  // normal mode key bindings
   "vim.normalModeKeyBindings": [
     {
       "before": ["L"],
@@ -328,13 +269,13 @@
       "command": "editor.action.scrollRightHover",
       "when": "editorHoverFocused"
     }
+    // {
+    //   "before": [":"],
+    //   "commands": ["workbench.action.showCommands"],
+    //   "silent": true
+    // }
   ],
-  "vim.insertModeKeyBindings": [
-    {
-      "before": ["j", "j"],
-      "after": ["<Esc>"]
-    }
-  ],
+  "vim.insertModeKeyBindings": [{ "before": ["j", "j"], "after": ["<Esc>"] }],
   "vim.visualModeKeyBindings": [
     {
       "before": [">"],
@@ -359,60 +300,90 @@
       "after": ["^"]
     }
   ],
+
+  // highlight after yank
   "vim.highlightedyank.enable": true,
   "vim.highlightedyank.color": "#a9dc7660",
   "vim.highlightedyank.duration": 350,
-  "vim.useSystemClipboard": true,
+
+  // yank to system clipboard
+  "vim.useSystemClipboard": true, // misc
+
+  // change the bottom bar color depending on vim mode
   "vim.statusBarColorControl": true,
-  "workbench.colorCustomizations": {
-    "statusBar.background": "#5f00af",
-    "statusBar.noFolderBackground": "#5f00af",
-    "statusBar.debuggingBackground": "#5f00af",
-    "statusBar.foreground": "#ffffff",
-    "statusBar.debuggingForeground": "#ffffff",
-    "titleBar.activeForeground": "#000",
-    "titleBar.inactiveForeground": "#000000CC",
-    "titleBar.activeBackground": "#DBC8FF",
-    "titleBar.inactiveBackground": "#DBC8FFCC"
-  },
-  "vim.enableNeovim": true,
-  "vim.hlsearch": true,
-  "vim.neovimUseConfigFile": true,
-  "mvim.camelCaseMotion.enable": true,
-  "terminal.integrated.env.osx": {
-    "FIG_NEW_SESSION": "1"
-  },
-  "editor.minimap.enabled": false,
-  "extensions.experimental.affinity": {
-    "vscodevim.vim": 1
-  },
-  "editor.cursorSurroundingLines": 0,
-  "editor.cursorSurroundingLinesStyle": "all",
-  "scm.experimental.showHistoryGraph": true,
+
+  // "vim.enableNeovim": true,
+  // "vim.neovimUseConfigFile": true,
+  // "vim.neovimConfigPath": "~/.config/nvim/init.lua",
+  // "vim.neovimPath": "/opt/homebrew/bin/nvim",
+  "vim.camelCaseMotion.enable": true,
+  "vim.searchHighlightTextColor": "#a9dc7660",
+  // "extensions.experimental.affinity": {
+  //   "vscodevim.vim": 1
+  // },
   "circleci.hostUrl": "",
+
   "totalTypeScript.hideAllTips": false,
   "totalTypeScript.hideBasicTips": true,
-  "editor.lineHeight": 0,
-  "editor.fontSize": 13,
-  "workbench.sideBar.location": "right",
-  "tailwindCSS.classAttributes": [
-    "class",
-    "className",
-    ".*ClassName.*",
-    "ngClass",
-    "class:list",
-    "color"
+  "totalTypeScript.hiddenTips": [
+    "type-alias-declaration",
+    "union-type",
+    "null-keyword",
+    "type-alias-with-generics",
+    "ts-object-type",
+    "basic-types",
+    "any-type",
+    "optional-object-property",
+    "literal-type",
+    "passing-generics-to-types",
+    "non-null-expression",
+    "typing-function-parameters",
+    "pick-utility-type",
+    "array-type",
+    "variable-type-annotation",
+    "generic-slots-in-functions",
+    "mapped-type",
+    "omit-utility-type",
+    "nonnullable-utility-type",
+    "keyof",
+    "function-return-type",
+    "undefined-keyword",
+    "record-utility-type",
+    "typeof",
+    "as-assertion",
+    "tuple-type",
+    "as-const",
+    "partial-utility-type",
+    "never-keyword",
+    "required-utility-type",
+    "type-predicate",
+    "type-alias-with-multiple-generics",
+    "exclude-utility-type",
+    "in-operator-narrowing",
+    "as-const-on-object"
   ],
-  "turboConsoleLog.includeFilename": true,
-  "turboConsoleLog.includeLineNum": true,
-  "turboConsoleLog.addSemicolonInTheEnd": true,
-  "cursor.cpp.enablePartialAccepts": true,
-  "cursor.composer.shouldChimeAfterChatFinishes": true,
-  "diffEditor.experimental.showMoves": true,
+  "typescript.updateImportsOnFileMove.enabled": "always",
   "diffEditor.renderSideBySide": true,
-  "vim.neovimPath": "/run/current-system/sw/bin/nvim",
-  "vim.sneakUseIgnorecaseAndSmartcase": true,
-  "vim.startofline": false,
+  "diffEditor.experimental.showMoves": true,
+
+  // Neovim settings
+  "vscode-neovim.neovimExecutablePaths.darwin": "/opt/homebrew/bin/nvim",
+  "vscode-neovim.compositeKeys": {
+    "jj": {
+      "command": "vscode-neovim.escape"
+    }
+  },
+  "workbench.colorCustomizations": {
+    "statusBar.background": "#005f87",
+    "statusBar.noFolderBackground": "#005f87",
+    "statusBar.debuggingBackground": "#005f87",
+    "statusBar.foreground": "#ffffff",
+    "statusBar.debuggingForeground": "#ffffff"
+  },
+  "vim.enableNeovim": true,
+  "vim.neovimPath": "/opt/homebtew/bin/nvim",
+  "vim.neovimConfigPath": "~/.config/nvim/init.lua",
+  "cursor.composer.shouldChimeAfterChatFinishes": true,
 
   "vim.normalModeKeyBindingsNonRecursive": [
     {
@@ -428,5 +399,28 @@
       "commands": ["flash-vscode.backspace"]
     }
   ],
-  "diffEditor.codeLens": true
+  "diffEditor.ignoreTrimWhitespace": false,
+  "console-ninja.toolsToEnableSupportAutomaticallyFor": {
+    "jest": false
+  },
+  "geminicodeassist.updateChannel": "Insiders",
+  "console-ninja.featureSet": "Community",
+  "diffEditor.codeLens": true,
+  "geminicodeassist.inlineSuggestions.enableAuto": false,
+  "editor.gotoLocation.multipleReferences": "gotoAndPeek",
+  "turboConsoleLog.addSemicolonInTheEnd": true,
+  "turboConsoleLog.logFunction": "log('', JSON.stringify({}, null, 2);",
+  "kilo-code.allowedCommands": ["git log", "git diff", "git show"],
+  "kilo-code.deniedCommands": [],
+  "[dockercompose]": {
+    "editor.insertSpaces": true,
+    "editor.tabSize": 2,
+    "editor.autoIndent": "advanced",
+    "editor.defaultFormatter": "redhat.vscode-yaml"
+  },
+  "[github-actions-workflow]": {
+    "editor.defaultFormatter": "redhat.vscode-yaml"
+  },
+  "geminicodeassist.displayInlineContextHint": false,
+  "geminicodeassist.enable": false
 }
