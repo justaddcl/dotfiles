@@ -1,0 +1,260 @@
+// Place your key bindings in this file to overwrite the defaults
+// ~/Library/Application Support/Code/User/keybindings.json
+[
+  {
+    "key": "cmd+ctrl+1",
+    "command": "workbench.action.focusActiveEditorGroup"
+  },
+
+  // focus editor from terminal
+  {
+    "key": "ctrl+1",
+    "command": "workbench.action.focusActiveEditorGroup",
+    "when": "terminalFocus"
+  },
+  // focus editor from terminal
+  {
+    "key": "cmd+shift+1",
+    "command": "workbench.action.focusActiveEditorGroup",
+    "when": "terminalIsOpen"
+  },
+  // focus terminal from editor
+  {
+    "key": "cmd+shift+2",
+    "command": "workbench.action.terminal.focus",
+    "when": "terminalIsOpen && !terminalFocus"
+  },
+  // (r)ename file
+  {
+    "key": "cmd+ctrl+r",
+    "command": "fileutils.renameFile",
+    "when": "editorFocus || filesExplorerFocus"
+  },
+  // (d)uplicate file
+  {
+    "key": "ctrl+shift+cmd+d",
+    "command": "fileutils.duplicateFile",
+    "when": "editorFocus || filesExplorerFocus"
+  },
+  // show context menu (right click menu)
+  {
+    "key": "alt+enter",
+    "command": "editor.action.showContextMenu",
+    "when": "textInputFocus"
+  },
+  // show context menu (right click menu)
+  {
+    "key": "shift+f10",
+    "command": "-editor.action.showContextMenu",
+    "when": "textInputFocus"
+  },
+  // (e)mmet - (w)rap with abbreviation
+  {
+    "key": "cmd+e cmd+w",
+    "command": "editor.emmet.action.wrapWithAbbreviation",
+    "when": "textInputFocus"
+  },
+  // terminal commands
+  {
+    // (n)ew (t)erminal window
+    "key": "cmd+t cmd+n",
+    "command": "workbench.action.terminal.new"
+  },
+  {
+    // split terminal window
+    "key": "cmd+t cmd+t",
+    "command": "workbench.action.terminal.split"
+  },
+  {
+    // close active (t)erminal (w)indow
+    "key": "cmd+t cmd+w",
+    "command": "workbench.action.terminal.kill",
+    "when": "terminalFocus"
+  },
+  {
+    // clears terminal
+    "key": "cmd+/",
+    "command": "workbench.action.terminal.sendSequence",
+    "args": {
+      "text": "clear\u000d"
+    },
+    "when": "terminalFocus"
+  },
+  {
+    // (r)ename active (t)erminal window
+    "key": "cmd+t cmd+r",
+    "command": "workbench.action.terminal.rename",
+    "when": "terminalFocus"
+  },
+  {
+    //  (t)erminal (f)ullsreen
+    "key": "cmd+t cmd+f",
+    "command": "workbench.action.toggleMaximizedPanel"
+  },
+  {
+    // nodemon (d)ev-server
+    "key": "cmd+n cmd+d",
+    "command": "workbench.action.terminal.sendSequence",
+    "args": {
+      "text": "yarn run dev\u000d"
+    },
+    "when": "terminalFocus"
+  },
+  {
+    // webpack (d)ev-server
+    "key": "cmd+d",
+    "command": "workbench.action.terminal.sendSequence",
+    "args": {
+      "text": "yarn run dev-server\u000d"
+    },
+    "when": "terminalFocus"
+  },
+  {
+    // start (e)xpress server
+    "key": "cmd+e",
+    "command": "workbench.action.terminal.sendSequence",
+    "args": {
+      "text": "yarn run express\u000d"
+    },
+    "when": "terminalFocus"
+  },
+  {
+    // webpack (b)uild -(d)ev
+    "key": "cmd+b cmd+d",
+    "command": "workbench.action.terminal.sendSequence",
+    "args": {
+      "text": "yarn run build:dev\u000d"
+    },
+    "when": "terminalFocus"
+  },
+  {
+    // webpack (b)uild -(p)roduction
+    "key": "cmd+b cmd+p",
+    "command": "workbench.action.terminal.sendSequence",
+    "args": {
+      "text": "yarn run build:prod\u000d"
+    },
+    "when": "terminalFocus"
+  },
+  {
+    // (j)est - (d)ebug
+    "key": "cmd+j cmd+d",
+    "command": "workbench.action.terminal.sendSequence",
+    "args": {
+      "text": "yarn test\u000d"
+    },
+    "when": "terminalFocus"
+  },
+  {
+    // (j)est - debug --(w)atch
+    "key": "cmd+j cmd+w",
+    "command": "workbench.action.terminal.sendSequence",
+    "args": {
+      "text": "yarn test-watch\u000d"
+    },
+    "when": "terminalFocus"
+  },
+  {
+    "key": "ctrl+.",
+    "command": "editor.action.triggerSuggest",
+    "when": "editorHasCompletionItemProvider && textInputFocus && !editorReadonly"
+  },
+  {
+    "key": "shift+space",
+    "command": "editor.action.triggerSuggest",
+    "when": "editorHasCompletionItemProvider && textInputFocus && !editorReadonly"
+  },
+  {
+    "key": "shift+cmd+0",
+    "command": "workbench.action.focusSideBar"
+  },
+  {
+    "key": "cmd+0",
+    "command": "-workbench.action.focusSideBar"
+  },
+  {
+    "key": "cmd+0",
+    "command": "workbench.action.zoomReset"
+  },
+  {
+    "key": "cmd+numpad0",
+    "command": "-workbench.action.zoomReset"
+  },
+  {
+    "key": "ctrl+cmd+up",
+    "command": "workbench.action.moveEditorToAboveGroup"
+  },
+  {
+    "key": "ctrl+cmd+down",
+    "command": "workbench.action.moveEditorToBelowGroup"
+  },
+  // CSS module (s)tyle - (w)rap
+  {
+    "key": "cmd+e cmd+s",
+    "command": "editor.action.insertSnippet",
+    "args": {
+      "name": "Update to CSS module className"
+    },
+    "when": "editorTextFocus"
+  },
+  {
+    "key": "shift+cmd+c",
+    "command": "-workbench.action.terminal.openNativeConsole",
+    "when": "!terminalFocus"
+  },
+  {
+    "key": "cmd+space",
+    "command": "editor.action.triggerSuggest",
+    "when": "editorHasCompletionItemProvider && textInputFocus && !editorReadonly && !suggestWidgetVisible"
+  },
+  {
+    "key": "cmd+space",
+    "command": "focusSuggestion",
+    "when": "suggestWidgetVisible && textInputFocus && !suggestWidgetHasFocusedSuggestion"
+  },
+  {
+    "key": "cmd+space",
+    "command": "toggleSuggestionDetails",
+    "when": "suggestWidgetHasFocusedSuggestion && suggestWidgetVisible && textInputFocus"
+  },
+  {
+    "key": "ctrl+shift+l",
+    "command": "turboConsoleLog.displayLogMessage"
+  },
+  {
+    "key": "ctrl+alt+l",
+    "command": "-turboConsoleLog.displayLogMessage"
+  },
+  {
+    // toggle secondary side bar when Explorer is visible
+    "key": "cmd+shift+e",
+    "command": "workbench.action.toggleSidebarVisibility",
+    "when": "explorerViewletVisible"
+  },
+  {
+    "key": "shift+cmd+w",
+    "command": "workbench.action.closeAllEditors"
+  },
+  {
+    "key": "cmd+k cmd+w",
+    "command": "-workbench.action.closeAllEditors"
+  },
+  {
+    "key": "shift+cmd+v",
+    "command": "workbench.view.scm",
+    "when": "workbench.scm.active"
+  },
+  {
+    "key": "shift+cmd+v",
+    "command": "workbench.view.scm",
+    "when": "workbench.scm.active && !gitlens:disabled && config.gitlens.keymap == 'chorded'"
+  },
+  {
+    "key": "cmd+g cmd+r",
+    "command": "gitlens.openFileOnRemote"
+  },
+  {
+    "key": "cmd+i",
+    "command": "composerMode.agent"
+  }
+]
