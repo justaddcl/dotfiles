@@ -58,10 +58,15 @@
       homebrew = {
         enable = true;
 	brews = [
+	  "btop"
 	  "git-delta"
+	  "htop"
+	  "lazygit"
 	  "mas"
 	  "node"
 	  "pnpm"
+	  "ripgrep"
+	  "tmux"
 	];
 	casks = [
           "1password"
@@ -76,8 +81,10 @@
 	  "fliqlo"
 	  "flux"
 	  "font-inconsolata-for-powerline"
+	  "ghostty"
 	  "itsycal"
 	  "linear-linear"
+	  "logi-options+"
 	  "marta"
 	  "nordvpn"
 	  "notion"
