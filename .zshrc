@@ -242,5 +242,13 @@ source <(fzf --zsh)
 # set up zoxide to replace default "cd" command
 eval "$(zoxide init zsh --cmd cd)"
 
-PATH=~/.console-ninja/.bin:$PATH
+
 export PATH=$PATH:$HOME/.maestro/bin
+
+# pnpm
+export PNPM_HOME="/Users/yuji/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
